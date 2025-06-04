@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Página de Inicio - Cooperativa Agrícola</title>
+  <title>Quiénes Somos - Cooperativa Agrícola</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
   <style>
     /* Colores personalizados */
@@ -22,13 +22,6 @@
     .text-verde-claro {
       color: #81C784;
     }
-    
-    /* Hover personalizado para el botón "Entrar" */
-    .btn-verde:hover {
-      background-color: #388E3C; /* Verde más oscuro en hover */
-      color: white; /* Texto blanco en hover */
-      border-color: #388E3C; /* Borde en hover */
-    }
   </style>
 </head>
 <body>
@@ -40,23 +33,24 @@
 
   <!-- Main Content -->
   <main class="container d-flex flex-column align-items-center justify-content-center" style="min-height: 80vh;">
-    <div class="card p-4 shadow" style="max-width: 400px; width: 100%; border: 1px solid #81C784;">
-      <h2 class="text-center mb-4 text-verde">Iniciar Sesión</h2>
-      <form>
-        <div class="mb-3">
-          <label for="usuario" class="form-label text-verde">Usuario</label>
-          <input type="text" class="form-control" id="usuario" placeholder="Introduce tu usuario">
-        </div>
-        <div class="mb-3">
-          <label for="contrasena" class="form-label text-verde">Contraseña</label>
-          <input type="password" class="form-control" id="contrasena" placeholder="Introduce tu contraseña">
-        </div>
-        <div class="d-grid gap-2">
-          <button type="submit" class="btn bg-verde text-white btn-verde">Entrar</button>
-          <!-- Aquí se coloca el enlace al "Quiénes Somos" -->
-          <a href="quienSomos.php" class="btn btn-outline-success">Entrar como visitante</a>
-        </div>
-      </form>
+    <div class="card p-4 shadow" style="max-width: 800px; width: 100%; border: 1px solid #81C784;">
+      <h2 class="text-center mb-4 text-verde">Quiénes Somos</h2>
+      <p class="text-verde">
+        Somos una cooperativa agrícola comprometida con la producción y comercialización de productos frescos, orgánicos y de alta calidad. Fundada por un grupo de agricultores locales, nuestra misión es apoyar a la comunidad agrícola y proporcionar a los consumidores productos naturales cultivados de manera sostenible.
+      </p>
+      <p class="text-verde">
+        Nuestra cooperativa busca crear un espacio de colaboración entre productores, consumidores y el medio ambiente. Trabajamos en conjunto con nuestros socios para promover prácticas agrícolas responsables que cuiden la salud de la tierra y de quienes consumen nuestros productos.
+      </p>
+      <p class="text-verde">
+        Con años de experiencia en el sector, nuestros miembros comparten el objetivo común de mejorar la calidad de vida de las personas a través de alimentos saludables y producidos de manera ética.
+      </p>
+      <h3 class="text-center mt-4 text-verde">Nuestros Valores</h3>
+      <ul class="list-unstyled">
+        <li><strong>Compromiso</strong>: Trabajamos cada día para ofrecer lo mejor a nuestros clientes y colaboradores.</li>
+        <li><strong>Sostenibilidad</strong>: Fomentamos el uso de prácticas agrícolas que cuiden el medio ambiente.</li>
+        <li><strong>Colaboración</strong>: Creemos en el trabajo en equipo como una herramienta para el éxito.</li>
+        <li><strong>Calidad</strong>: Todos nuestros productos pasan por estrictos controles de calidad para garantizar su frescura.</li>
+      </ul>
     </div>
   </main>
 

@@ -1,0 +1,119 @@
+/* Navbar con degradado de verdes y sombreado */
+.navbar-custom {
+  background: linear-gradient(90deg, #207a3b 0%, #34c759 100%);
+  box-shadow: 0 2px 6px rgba(32, 122, 59, 0.2);
+}
+
+/* Footer con degradado y color diferente */
+.footer-custom {
+  background: linear-gradient(90deg, #207a3b 0%, #14532d 100%);
+  box-shadow: 0 -2px 6px rgba(20, 83, 45, 0.08);
+}
+
+main {
+  padding-left: 1rem;
+  padding-right: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 70vh; /* Ajusta este valor según prefieras el "espacio" vertical */
+}
+
+@media (min-width: 576px) {
+  main {
+    padding-left: 2rem;
+    padding-right: 2rem;
+  }
+}
+
+@media (min-width: 992px) {
+  main {
+    padding-left: 4rem;
+    padding-right: 4rem;
+  }
+}
+
+/* Ajuste para que el footer quede abajo si hay poco contenido */
+body {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Botones personalizados */
+.btn-success, .btn-outline-light {
+  transition: background 0.2s, color 0.2s;
+}
+.btn-success {
+  background: linear-gradient(90deg, #34c759 60%, #207a3b 100%);
+  border: none;
+}
+.btn-success:hover {
+  background: linear-gradient(90deg, #207a3b 0%, #34c759 100%);
+  color: #fff;
+}
+.btn-outline-light:hover {
+  background: #fff;
+  color: #207a3b;
+}
+
+/* Mejorar modales para que sean más agradables visualmente */
+.modal-content {
+  border-radius: 1rem;
+}
+
+/* Ajustar el texto del branding */
+.navbar-brand {
+  font-weight: bold;
+  letter-spacing: 1px;
+}
+
+/* Mejoras para accesibilidad y contraste */
+.nav-link.active, .nav-link:focus, .nav-link:hover {
+  color: #fff !important;
+  text-shadow: 0 1px 4px rgba(20, 83, 45, 0.12);
+}
+
+/* --- CONTENEDORES DEL MAIN --- */
+.contenedor-principal {
+  background: linear-gradient(90deg, #e7ffe7 0%, #f4fff4 100%);
+  border-radius: 1.2rem;
+  box-shadow: 0 2px 12px rgba(32, 122, 59, 0.07);
+  padding: 2rem 1rem;
+  max-width: 1100px;
+  margin: 0 auto;
+  gap: 2rem;
+}
+
+.contenedor-imagen {
+  flex: 1 1 300px;
+  min-width: 200px;
+  max-width: 400px;
+}
+
+.imagen-cooperativa {
+  width: 100%;
+  height: auto;
+  border-radius: 1rem;
+  box-shadow: 0 4px 18px rgba(52, 199, 89, 0.14);
+}
+
+.contenedor-descripcion {
+  flex: 2 1 300px;
+}
+
+/* Responsive: apilar en móvil */
+@media (max-width: 991px) {
+  .contenedor-principal {
+    flex-direction: column !important;
+    text-align: center;
+    padding: 1rem 0.5rem;
+  }
+  .contenedor-descripcion {
+    padding-top: 1rem;
+  }
+  .contenedor-imagen {
+    margin-bottom: 1rem;
+    max-width: 80vw;
+  }
+}

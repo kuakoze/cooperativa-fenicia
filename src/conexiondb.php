@@ -1,6 +1,6 @@
 <?php
 $servidor = "db";
-$usuario = "root";
+$usuario = "admin";
 $password = "admin";
 $base_datos = "cooperativa_fenicia";
 

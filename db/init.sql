@@ -44,3 +44,7 @@ CREATE TABLE IF NOT EXISTS detalles_pedido (
     FOREIGN KEY (id_pedido) REFERENCES pedido(id_pedido) ON DELETE CASCADE,
     FOREIGN KEY (id_producto) REFERENCES producto(id_producto) ON DELETE CASCADE
 ) ENGINE=InnoDB;
+
+ALTER TABLE usuarios ADD COLUMN rol VARCHAR(20) NOT NULL DEFAULT 'usuario';
+INSERT INTO usuarios (nombre, apellidos, email, password, direccion, telefono, rol)
+VALUES ('admin', 'Principal', 'admin@ejemplo.com', 'admin', 'Direccion', '123456789', 'admin');

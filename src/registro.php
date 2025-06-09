@@ -1,36 +1,35 @@
 <?php
-require_once __DIR__ . '/conexiondb.php'; // ← RUTA ROBUSTA
+require_once __DIR__ . '/conexiondb.php';
+session_start();
 
-if (
-    isset($_POST['nombre'], $_POST['apellidos'], $_POST['email'], $_POST['password'], $_POST['direccion'], $_POST['telefono'])
-) {
-    $nombre = trim($_POST['nombre']);
-    $apellidos = trim($_POST['apellidos']);
-    $email = trim($_POST['email']);
-    $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
-    $direccion = trim($_POST['direccion']);
-    $telefono = trim($_POST['telefono']);
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $nombre = $_POST['nombre'] ?? '';
+    $apellidos = $_POST['apellidos'] ?? '';
+    $email = $_POST['email'] ?? '';
+    $password = $_POST['password'] ?? '';
+    $direccion = $_POST['direccion'] ?? '';
+    $telefono = $_POST['telefono'] ?? '';
 
-    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-        die('Correo electrónico no válido.');
-    }
+    $sql = "INSERT INTO usuarios (nombre, apellidos, email, password, direccion, telefono) VALUES (?, ?, ?, ?, ?, ?)";
+    $stmt = $conexion->prepare($sql);
 
-    $stmt = $conexion->prepare("INSERT INTO usuario (nombre, apellidos, email, password, direccion, telefono) VALUES (?, ?, ?, ?, ?, ?)");
-    $stmt->bind_param("ssssss", $nombre, $apellidos, $email, $password, $direccion, $telefono);
-
-    if ($stmt->execute()) {
-        echo "Registro exitoso. <a href='index.php'>Volver</a>";
-    } else {
-        if ($conexion->errno === 1062) {
-            echo "El correo electrónico ya está registrado.";
+    if ($stmt) {
+        $stmt->bind_param('ssssss', $nombre, $apellidos, $email, $password, $direccion, $telefono);
+        if ($stmt->execute()) {
+            // Guardar nombre en la sesión
+            $_SESSION['usuario'] = $nombre;
+            header('Location: index.php?bienvenida=1');
+            exit();
         } else {
-            echo "Error en el registro: " . $stmt->error;
+            header('Location: index.php?registro=error');
+            exit();
         }
+        $stmt->close();
+    } else {
+        header('Location: index.php?registro=error');
+        exit();
     }
-
-    $stmt->close();
-    $conexion->close();
 } else {
-    echo "Todos los campos son obligatorios.";
+    header('Location: index.php');
+    exit();
 }
-?>

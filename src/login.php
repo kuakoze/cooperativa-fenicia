@@ -1,31 +1,32 @@
 <?php
-session_start();
-require_once __DIR__ . '/../includes/conexiondb.php';
+require_once __DIR__ . '/conexiondb.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $email = $_POST['email'] ?? '';
     $password = $_POST['password'] ?? '';
 
-    // Consulta para buscar el usuario
-    $stmt = $pdo->prepare("SELECT * FROM usuarios WHERE email = ?");
-    $stmt->execute([$email]);
-    $usuario = $stmt->fetch();
+    $sql = "SELECT * FROM usuarios WHERE email = ? AND password = ?";
+    $stmt = $conexion->prepare($sql);
 
-    if ($usuario && password_verify($password, $usuario['password'])) {
-        // Guardar datos importantes en la sesión
-        $_SESSION['usuario_id'] = $usuario['id'];
-        $_SESSION['nombre'] = $usuario['nombre'];
-        $_SESSION['email'] = $usuario['email'];
-        $_SESSION['rol'] = $usuario['rol']; // <- AQUÍ GUARDAMOS EL ROL
+    if ($stmt) {
+        $stmt->bind_param('ss', $email, $password);
+        $stmt->execute();
+        $resultado = $stmt->get_result();
 
-        // Redirigir al inicio
-        header('Location: /src/index.php');
-        exit;
+        if ($resultado->num_rows > 0) {
+            session_start();
+            $usuario = $resultado->fetch_assoc();
+            $_SESSION['usuario'] = $usuario['nombre'] . ' ' . $usuario['apellidos'];
+            $_SESSION['email'] = $usuario['email'];
+            header('Location: index.php');
+            exit();
+        } else {
+            echo "Correo o contraseña incorrectos.";
+        }
+        $stmt->close();
     } else {
-        // Credenciales incorrectas
-        $_SESSION['error_login'] = "Correo o contraseña incorrectos";
-        header('Location: /src/login.php');
-        exit;
+        echo "Error en la preparación de la consulta.";
     }
 }
 ?>
+

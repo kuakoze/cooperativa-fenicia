@@ -45,9 +45,7 @@ CREATE TABLE IF NOT EXISTS detalle_pedido (
 ) ENGINE=InnoDB;
 
 -- 5. Insertar usuario admin
--- Contraseña: 'admin' hasheada con PHP password_hash('admin', PASSWORD_DEFAULT)
--- Hash generado ejemplo: $2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi
--- Puedes sustituir el hash si lo prefieres por uno generado en tu servidor PHP
+
 
 INSERT INTO usuarios (nombre, apellidos, email, password, direccion, telefono, rol)
-VALUES ('admin', 'Principal', 'admin@ejemplo.com', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'Direccion', '123456789', 'admin');
+VALUES ('admin', 'Principal', 'admin@ejemplo.com', '123admin456', 'Direccion', '123456789', 'admin');

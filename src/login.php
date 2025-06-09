@@ -18,15 +18,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $usuario = $resultado->fetch_assoc();
             $_SESSION['usuario'] = $usuario['nombre'] . ' ' . $usuario['apellidos'];
             $_SESSION['email'] = $usuario['email'];
-            header('Location: index.php');
+
+            if ($_SESSION['email'] === 'admin@ejemplo.com') { // Pon aquí el email real del admin
+                header('Location: admin/admin.php');
+            } else {
+                header('Location: index.php');
+            }
             exit();
         } else {
-            echo "Correo o contraseña incorrectos.";
+            header('Location: index.php?login=error');
+            exit();
         }
         $stmt->close();
     } else {
-        echo "Error en la preparación de la consulta.";
+        header('Location: index.php?login=error');
+        exit();
     }
 }
 ?>
-

@@ -1,50 +1,53 @@
--- Crear tabla usuario
-CREATE TABLE IF NOT EXISTS usuario (
-    id_usuario INT AUTO_INCREMENT PRIMARY KEY,
+-- Creación de tablas para sistema de usuarios y administración básica
+
+-- 1. Tabla de usuarios
+CREATE TABLE IF NOT EXISTS usuarios (
+    id INT AUTO_INCREMENT PRIMARY KEY,
     nombre VARCHAR(100) NOT NULL,
     apellidos VARCHAR(100) NOT NULL,
     email VARCHAR(255) NOT NULL UNIQUE,
     password VARCHAR(255) NOT NULL,
     direccion VARCHAR(255),
-    telefono VARCHAR(20)
+    telefono VARCHAR(20),
+    rol VARCHAR(20) NOT NULL DEFAULT 'usuario'
 ) ENGINE=InnoDB;
 
--- Crear tabla categoria_productos
-CREATE TABLE IF NOT EXISTS categoria_productos (
-    id_categoria INT AUTO_INCREMENT PRIMARY KEY,
-    nombre_categoria VARCHAR(100) NOT NULL
-) ENGINE=InnoDB;
-
--- Crear tabla producto
-CREATE TABLE IF NOT EXISTS producto (
-    id_producto INT AUTO_INCREMENT PRIMARY KEY,
-    nombre_producto VARCHAR(255) NOT NULL,
+-- 2. Tabla de productos (ejemplo, puedes modificarla a tus necesidades)
+CREATE TABLE IF NOT EXISTS productos (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nombre VARCHAR(100) NOT NULL,
     descripcion TEXT,
     precio DECIMAL(10,2) NOT NULL,
-    id_categoria INT,
-    FOREIGN KEY (id_categoria) REFERENCES categoria_productos(id_categoria) ON DELETE SET NULL
+    stock INT DEFAULT 0
 ) ENGINE=InnoDB;
 
--- Crear tabla pedido
-CREATE TABLE IF NOT EXISTS pedido (
-    id_pedido INT AUTO_INCREMENT PRIMARY KEY,
-    id_usuario INT NOT NULL,
-    fecha DATETIME NOT NULL,
-    coste DECIMAL(10,2) NOT NULL,
-    FOREIGN KEY (id_usuario) REFERENCES usuario(id_usuario) ON DELETE CASCADE
-) ENGINE=InnoDB;
-
--- Crear tabla detalles_pedido
-CREATE TABLE IF NOT EXISTS detalles_pedido (
-    id_detalles INT AUTO_INCREMENT PRIMARY KEY,
-    id_pedido INT NOT NULL,
-    id_producto INT NOT NULL,
-    cantidad INT NOT NULL,
+-- 3. Tabla de pedidos (ejemplo)
+CREATE TABLE IF NOT EXISTS pedidos (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    usuario_id INT NOT NULL,
+    fecha DATETIME DEFAULT CURRENT_TIMESTAMP,
     total DECIMAL(10,2) NOT NULL,
-    FOREIGN KEY (id_pedido) REFERENCES pedido(id_pedido) ON DELETE CASCADE,
-    FOREIGN KEY (id_producto) REFERENCES producto(id_producto) ON DELETE CASCADE
+    FOREIGN KEY (usuario_id) REFERENCES usuarios(id)
+        ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB;
 
-ALTER TABLE usuarios ADD COLUMN rol VARCHAR(20) NOT NULL DEFAULT 'usuario';
+-- 4. Tabla de detalles de pedidos (ejemplo)
+CREATE TABLE IF NOT EXISTS detalle_pedido (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    pedido_id INT NOT NULL,
+    producto_id INT NOT NULL,
+    cantidad INT NOT NULL,
+    precio_unitario DECIMAL(10,2) NOT NULL,
+    FOREIGN KEY (pedido_id) REFERENCES pedidos(id)
+        ON DELETE CASCADE ON UPDATE CASCADE,
+    FOREIGN KEY (producto_id) REFERENCES productos(id)
+        ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB;
+
+-- 5. Insertar usuario admin
+-- Contraseña: 'admin' hasheada con PHP password_hash('admin', PASSWORD_DEFAULT)
+-- Hash generado ejemplo: $2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi
+-- Puedes sustituir el hash si lo prefieres por uno generado en tu servidor PHP
+
 INSERT INTO usuarios (nombre, apellidos, email, password, direccion, telefono, rol)
-VALUES ('admin', 'Principal', 'admin@ejemplo.com', 'admin', 'Direccion', '123456789', 'admin');
+VALUES ('admin', 'Principal', 'admin@ejemplo.com', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'Direccion', '123456789', 'admin');

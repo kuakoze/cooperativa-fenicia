@@ -28,6 +28,7 @@ if (!isset($_SESSION['email']) || $_SESSION['email'] !== 'admin@ejemplo.com') {
             <li class="nav-item"><a class="nav-link active" href="../index.php">Inicio</a></li>
             <li class="nav-item"><a class="nav-link" href="#productos">Productos</a></li>
             <li class="nav-item"><a class="nav-link" href="#contacto">Contacto</a></li>
+            <li class="nav-item"><a class="nav-link" href="modificaciones.php">Modificaciones</a></li>
           </ul>
           <div class="d-flex align-items-center">
             <span class="me-3 text-white fw-bold">¡Bienvenido, <?php echo htmlspecialchars($_SESSION['usuario']); ?>!</span>

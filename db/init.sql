@@ -1,6 +1,6 @@
--- Creación de tablas para sistema de usuarios y administración básica
 
--- 1. Tabla de usuarios
+
+-- TABLA USUARIOS
 CREATE TABLE IF NOT EXISTS usuarios (
     id INT AUTO_INCREMENT PRIMARY KEY,
     nombre VARCHAR(100) NOT NULL,
@@ -12,7 +12,7 @@ CREATE TABLE IF NOT EXISTS usuarios (
     rol VARCHAR(20) NOT NULL DEFAULT 'usuario'
 ) ENGINE=InnoDB;
 
--- 2. Tabla de productos (ejemplo, puedes modificarla a tus necesidades)
+-- TABLA PRODUCTOS
 CREATE TABLE IF NOT EXISTS productos (
     id INT AUTO_INCREMENT PRIMARY KEY,
     nombre VARCHAR(100) NOT NULL,
@@ -21,7 +21,22 @@ CREATE TABLE IF NOT EXISTS productos (
     stock INT DEFAULT 0
 ) ENGINE=InnoDB;
 
--- 3. Tabla de pedidos (ejemplo)
+-- TABLA CATEGORÍAS
+CREATE TABLE IF NOT EXISTS categorias (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nombre VARCHAR(100) NOT NULL UNIQUE
+) ENGINE=InnoDB;
+
+-- TABLA PRODUCTO_CATEGORIA 
+CREATE TABLE IF NOT EXISTS producto_categoria (
+    producto_id INT NOT NULL,
+    categoria_id INT NOT NULL,
+    PRIMARY KEY (producto_id, categoria_id),
+    FOREIGN KEY (producto_id) REFERENCES productos(id) ON DELETE CASCADE ON UPDATE CASCADE,
+    FOREIGN KEY (categoria_id) REFERENCES categorias(id) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB;
+
+-- 3. TABLA PEDIDOS
 CREATE TABLE IF NOT EXISTS pedidos (
     id INT AUTO_INCREMENT PRIMARY KEY,
     usuario_id INT NOT NULL,
@@ -31,7 +46,7 @@ CREATE TABLE IF NOT EXISTS pedidos (
         ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB;
 
--- 4. Tabla de detalles de pedidos (ejemplo)
+-- TABLA DETALLE _PEDIDO
 CREATE TABLE IF NOT EXISTS detalle_pedido (
     id INT AUTO_INCREMENT PRIMARY KEY,
     pedido_id INT NOT NULL,
@@ -44,8 +59,6 @@ CREATE TABLE IF NOT EXISTS detalle_pedido (
         ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB;
 
--- 5. Insertar usuario admin
-
-
+-- Se crea el admin
 INSERT INTO usuarios (nombre, apellidos, email, password, direccion, telefono, rol)
 VALUES ('admin', 'Principal', 'admin@ejemplo.com', '123admin456', 'Direccion', '123456789', 'admin');

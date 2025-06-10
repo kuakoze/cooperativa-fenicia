@@ -105,6 +105,26 @@ if (!isset($_SESSION['email']) || $_SESSION['email'] !== 'admin@ejemplo.com') {
         </form>
       </div>
 
+      <!-- Formulario para eliminar producto (oculto por defecto) -->
+      <div id="formEliminarProducto" class="card p-4 mb-3" style="display:none;">
+        <h5 class="mb-3">Eliminar producto</h5>
+        <form method="POST" action="eliminar_producto.php">
+          <div class="mb-3">
+            <label for="productoEliminar" class="form-label">Seleccione el producto a eliminar</label>
+            <select class="form-select" id="productoEliminar" name="producto_id" required>
+              <option value="">Seleccione un producto</option>
+              <?php
+              $res = $conexion->query("SELECT id, nombre FROM productos ORDER BY nombre ASC");
+              while ($row = $res->fetch_assoc()):
+              ?>
+                <option value="<?php echo $row['id']; ?>"><?php echo htmlspecialchars($row['nombre']); ?></option>
+              <?php endwhile; ?>
+            </select>
+          </div>
+          <button type="submit" class="btn btn-danger" onclick="return confirm('¿Seguro que desea eliminar este producto?');">Eliminar</button>
+        </form>
+      </div>
+
       <!-- Formulario para crear nueva categoría (oculto por defecto) -->
       <div id="formNuevaCategoria" class="card p-4 mb-3" style="display:none;">
         <h5 class="mb-3">Crear nueva categoría</h5>
@@ -214,31 +234,43 @@ if (!isset($_SESSION['email']) || $_SESSION['email'] !== 'admin@ejemplo.com') {
       const formDelCat = document.getElementById('formEliminarCategoria');
       const formSubirProd = document.getElementById('formSubirProducto');
       const tablaModProd = document.getElementById('tablaModificarProducto');
+      const formDelProd = document.getElementById('formEliminarProducto');
       if (this.value === '4') {
         formCat.style.display = 'block';
         formDelCat.style.display = 'none';
         formSubirProd.style.display = 'none';
         tablaModProd.style.display = 'none';
+        formDelProd.style.display = 'none';
       } else if (this.value === '5') {
         formCat.style.display = 'none';
         formDelCat.style.display = 'block';
         formSubirProd.style.display = 'none';
         tablaModProd.style.display = 'none';
+        formDelProd.style.display = 'none';
       } else if (this.value === '1') {
         formCat.style.display = 'none';
         formDelCat.style.display = 'none';
         formSubirProd.style.display = 'block';
         tablaModProd.style.display = 'none';
+        formDelProd.style.display = 'none';
       } else if (this.value === '2') {
         formCat.style.display = 'none';
         formDelCat.style.display = 'none';
         formSubirProd.style.display = 'none';
         tablaModProd.style.display = 'block';
+        formDelProd.style.display = 'none';
+      } else if (this.value === '3') {
+        formCat.style.display = 'none';
+        formDelCat.style.display = 'none';
+        formSubirProd.style.display = 'none';
+        tablaModProd.style.display = 'none';
+        formDelProd.style.display = 'block';
       } else {
         formCat.style.display = 'none';
         formDelCat.style.display = 'none';
         formSubirProd.style.display = 'none';
         tablaModProd.style.display = 'none';
+        formDelProd.style.display = 'none';
       }
     });
   </script>

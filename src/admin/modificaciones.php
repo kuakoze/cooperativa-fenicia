@@ -1,6 +1,5 @@
 <?php
 
-
 session_start();
 if (!isset($_SESSION['email']) || $_SESSION['email'] !== 'admin@ejemplo.com') {
     header('Location: ../index.php');
@@ -62,6 +61,50 @@ if (!isset($_SESSION['email']) || $_SESSION['email'] !== 'admin@ejemplo.com') {
         </select>
       </form>
 
+      <!-- Formulario para subir producto (oculto por defecto) -->
+      <div id="formSubirProducto" class="card p-4 mb-3" style="display:none;">
+        <h5 class="mb-3">Subir nuevo producto</h5>
+        <form method="POST" action="subir_producto.php" enctype="multipart/form-data">
+          <div class="mb-3">
+            <label for="nombreProducto" class="form-label">Nombre</label>
+            <input type="text" class="form-control" id="nombreProducto" name="nombre" required>
+          </div>
+          <div class="mb-3">
+            <label for="descripcionProducto" class="form-label">Descripción</label>
+            <textarea class="form-control" id="descripcionProducto" name="descripcion" required></textarea>
+          </div>
+          <div class="mb-3">
+            <label for="precioProducto" class="form-label">Precio</label>
+            <input type="number" step="0.01" class="form-control" id="precioProducto" name="precio" required>
+          </div>
+          <div class="mb-3">
+            <label for="stockProducto" class="form-label">Stock</label>
+            <input type="number" class="form-control" id="stockProducto" name="stock" required>
+          </div>
+          <div class="mb-3">
+            <label for="imagenProducto" class="form-label">Imagen</label>
+            <input type="file" class="form-control" id="imagenProducto" name="imagen" accept="image/*" required>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Categorías</label>
+            <div>
+              <?php
+              require_once '../conexiondb.php';
+              $res = $conexion->query("SELECT id, nombre FROM categorias ORDER BY nombre ASC");
+              while ($row = $res->fetch_assoc()):
+              ?>
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="checkbox" id="cat_<?php echo $row['id']; ?>" name="categorias[]" value="<?php echo $row['id']; ?>">
+                  <label class="form-check-label" for="cat_<?php echo $row['id']; ?>"><?php echo htmlspecialchars($row['nombre']); ?></label>
+                </div>
+              <?php endwhile; ?>
+            </div>
+            <small class="form-text text-muted">Selecciona una o varias categorías.</small>
+          </div>
+          <button type="submit" class="btn btn-primary">Subir producto</button>
+        </form>
+      </div>
+
       <!-- Formulario para crear nueva categoría (oculto por defecto) -->
       <div id="formNuevaCategoria" class="card p-4 mb-3" style="display:none;">
         <h5 class="mb-3">Crear nueva categoría</h5>
@@ -83,7 +126,6 @@ if (!isset($_SESSION['email']) || $_SESSION['email'] !== 'admin@ejemplo.com') {
             <select class="form-select" id="categoriaEliminar" name="categoria_id" required>
               <option value="">Seleccione una categoría</option>
               <?php
-              require_once '../conexiondb.php';
               $res = $conexion->query("SELECT id, nombre FROM categorias ORDER BY nombre ASC");
               while ($row = $res->fetch_assoc()):
               ?>
@@ -93,6 +135,68 @@ if (!isset($_SESSION['email']) || $_SESSION['email'] !== 'admin@ejemplo.com') {
           </div>
           <button type="submit" class="btn btn-danger" onclick="return confirm('¿Seguro que desea eliminar esta categoría?');">Eliminar</button>
         </form>
+      </div>
+
+      <!-- Tabla para modificar productos (oculta por defecto) -->
+      <div id="tablaModificarProducto" class="card p-4 mb-3" style="display:none;">
+        <h5 class="mb-3">Modificar productos</h5>
+        <div class="table-responsive">
+          <table class="table table-bordered align-middle">
+            <thead>
+              <tr>
+                <th>Nombre</th>
+                <th>Descripción</th>
+                <th>Precio</th>
+                <th>Stock</th>
+                <th>Imagen</th>
+                <th>Categorías</th>
+                <th>Acción</th>
+              </tr>
+            </thead>
+            <tbody>
+              <?php
+              $productos = $conexion->query("SELECT * FROM productos");
+              while ($prod = $productos->fetch_assoc()):
+                // Obtener categorías del producto
+                $catRes = $conexion->query("SELECT categoria_id FROM producto_categoria WHERE producto_id = " . $prod['id']);
+                $prodCats = [];
+                while ($catRow = $catRes->fetch_assoc()) {
+                  $prodCats[] = $catRow['categoria_id'];
+                }
+                // Obtener todas las categorías
+                $allCats = $conexion->query("SELECT id, nombre FROM categorias ORDER BY nombre ASC");
+              ?>
+              <tr>
+                <form method="POST" action="modificar_producto.php" enctype="multipart/form-data">
+                  <input type="hidden" name="id" value="<?php echo $prod['id']; ?>">
+                  <td><input type="text" class="form-control" name="nombre" value="<?php echo htmlspecialchars($prod['nombre']); ?>" required></td>
+                  <td><textarea class="form-control" name="descripcion" required><?php echo htmlspecialchars($prod['descripcion']); ?></textarea></td>
+                  <td><input type="number" step="0.01" class="form-control" name="precio" value="<?php echo $prod['precio']; ?>" required></td>
+                  <td><input type="number" class="form-control" name="stock" value="<?php echo $prod['stock']; ?>" required></td>
+                  <td>
+                    <?php if (!empty($prod['imagen'])): ?>
+                      <img src="../<?php echo htmlspecialchars($prod['imagen']); ?>" alt="Imagen" style="max-width:60px;max-height:60px;">
+                    <?php endif; ?>
+                    <input type="file" class="form-control mt-2" name="imagen" accept="image/*">
+                  </td>
+                  <td>
+                    <?php while ($cat = $allCats->fetch_assoc()): ?>
+                      <div class="form-check">
+                        <input class="form-check-input" type="checkbox" name="categorias[]" value="<?php echo $cat['id']; ?>"
+                          <?php if (in_array($cat['id'], $prodCats)) echo 'checked'; ?>>
+                        <label class="form-check-label"><?php echo htmlspecialchars($cat['nombre']); ?></label>
+                      </div>
+                    <?php endwhile; ?>
+                  </td>
+                  <td>
+                    <button type="submit" class="btn btn-warning btn-sm">Modificar</button>
+                  </td>
+                </form>
+              </tr>
+              <?php endwhile; ?>
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
   </main>
@@ -108,15 +212,33 @@ if (!isset($_SESSION['email']) || $_SESSION['email'] !== 'admin@ejemplo.com') {
     document.getElementById('modSelect').addEventListener('change', function() {
       const formCat = document.getElementById('formNuevaCategoria');
       const formDelCat = document.getElementById('formEliminarCategoria');
+      const formSubirProd = document.getElementById('formSubirProducto');
+      const tablaModProd = document.getElementById('tablaModificarProducto');
       if (this.value === '4') {
         formCat.style.display = 'block';
         formDelCat.style.display = 'none';
+        formSubirProd.style.display = 'none';
+        tablaModProd.style.display = 'none';
       } else if (this.value === '5') {
         formCat.style.display = 'none';
         formDelCat.style.display = 'block';
+        formSubirProd.style.display = 'none';
+        tablaModProd.style.display = 'none';
+      } else if (this.value === '1') {
+        formCat.style.display = 'none';
+        formDelCat.style.display = 'none';
+        formSubirProd.style.display = 'block';
+        tablaModProd.style.display = 'none';
+      } else if (this.value === '2') {
+        formCat.style.display = 'none';
+        formDelCat.style.display = 'none';
+        formSubirProd.style.display = 'none';
+        tablaModProd.style.display = 'block';
       } else {
         formCat.style.display = 'none';
         formDelCat.style.display = 'none';
+        formSubirProd.style.display = 'none';
+        tablaModProd.style.display = 'none';
       }
     });
   </script>

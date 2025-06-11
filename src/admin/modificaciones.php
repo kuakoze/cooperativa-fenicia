@@ -26,9 +26,9 @@ if (!isset($_SESSION['email']) || $_SESSION['email'] !== 'admin@ejemplo.com') {
         </button>
         <div class="collapse navbar-collapse justify-content-between" id="navbarNav">
           <ul class="navbar-nav">
-            <li class="nav-item"><a class="nav-link" href="../index.php">Inicio</a></li>
-            <li class="nav-item"><a class="nav-link" href="#productos">Productos</a></li>
-            <li class="nav-item"><a class="nav-link" href="#contacto">Contacto</a></li>
+            <li class="nav-item"><a class="nav-link" href="admin.php">Inicio</a></li>
+            <li class="nav-item"><a class="nav-link" href="../producto.php">Productos</a></li>
+            <li class="nav-item"><a class="nav-link" href="../contacto.php">Contacto</a></li>
             <li class="nav-item"><a class="nav-link active" href="modificaciones.php">Modificaciones</a></li>
           </ul>
           <div class="d-flex align-items-center">

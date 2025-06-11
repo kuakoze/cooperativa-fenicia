@@ -1,6 +1,45 @@
 <?php
 session_start();
 require_once 'conexiondb.php';
+
+// Obtener categorías para el filtro
+$categorias = $conexion->query("SELECT id, nombre FROM categorias ORDER BY nombre ASC");
+
+// Procesar filtros
+$where = [];
+$params = [];
+$types = '';
+
+if (!empty($_GET['nombre'])) {
+    $where[] = "productos.nombre LIKE ?";
+    $params[] = '%' . $_GET['nombre'] . '%';
+    $types .= 's';
+}
+
+if (!empty($_GET['categorias'])) {
+    $catIds = array_filter(array_map('intval', $_GET['categorias']));
+    if ($catIds) {
+        $in = implode(',', array_fill(0, count($catIds), '?'));
+        $where[] = "productos.id IN (
+            SELECT producto_id FROM producto_categoria WHERE categoria_id IN ($in)
+        )";
+        $params = array_merge($params, $catIds);
+        $types .= str_repeat('i', count($catIds));
+    }
+}
+
+$sql = "SELECT * FROM productos";
+if ($where) {
+    $sql .= " WHERE " . implode(' AND ', $where);
+}
+$sql .= " ORDER BY nombre ASC";
+
+$stmt = $conexion->prepare($sql);
+if ($params) {
+    $stmt->bind_param($types, ...$params);
+}
+$stmt->execute();
+$res = $stmt->get_result();
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -24,7 +63,7 @@ require_once 'conexiondb.php';
           <ul class="navbar-nav">
             <li class="nav-item"><a class="nav-link" href="index.php">Inicio</a></li>
             <li class="nav-item"><a class="nav-link active" href="producto.php">Productos</a></li>
-            <li class="nav-item"><a class="nav-link" href="#contacto">Contacto</a></li>
+            <li class="nav-item"><a class="nav-link" href="contacto.php">Contacto</a></li>
             <?php if (isset($_SESSION['email']) && $_SESSION['email'] === 'admin@ejemplo.com'): ?>
               <li class="nav-item"><a class="nav-link" href="admin/modificaciones.php">Modificaciones</a></li>
             <?php endif; ?>
@@ -48,11 +87,39 @@ require_once 'conexiondb.php';
   <main class="flex-grow-1 py-4">
     <div class="container">
       <h2 class="mb-4">Nuestros Productos</h2>
+
+      <!-- Filtro de búsqueda -->
+      <form class="card card-body mb-4" method="get" action="producto.php">
+        <div class="row g-3 align-items-end">
+          <div class="col-md-4">
+            <label for="nombre" class="form-label">Buscar por nombre</label>
+            <input type="text" class="form-control" id="nombre" name="nombre" value="<?php echo htmlspecialchars($_GET['nombre'] ?? ''); ?>">
+          </div>
+          <div class="col-md-6">
+            <label class="form-label">Filtrar por categoría</label>
+            <div class="d-flex flex-wrap gap-2">
+              <?php foreach ($categorias as $cat): ?>
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="checkbox" id="cat_<?php echo $cat['id']; ?>" name="categorias[]" value="<?php echo $cat['id']; ?>"
+                    <?php if (!empty($_GET['categorias']) && in_array($cat['id'], $_GET['categorias'])) echo 'checked'; ?>>
+                  <label class="form-check-label" for="cat_<?php echo $cat['id']; ?>"><?php echo htmlspecialchars($cat['nombre']); ?></label>
+                </div>
+              <?php endforeach; ?>
+            </div>
+          </div>
+          <div class="col-md-2">
+            <button type="submit" class="btn btn-primary w-100">Buscar</button>
+          </div>
+        </div>
+      </form>
+
       <div class="row g-4">
-        <?php
-        $res = $conexion->query("SELECT * FROM productos");
-        while ($prod = $res->fetch_assoc()):
-        ?>
+        <?php if ($res->num_rows === 0): ?>
+          <div class="col-12">
+            <div class="alert alert-warning text-center">No se encontraron productos con los filtros seleccionados.</div>
+          </div>
+        <?php endif; ?>
+        <?php while ($prod = $res->fetch_assoc()): ?>
         <div class="col-12 col-sm-6 col-md-4 col-lg-3 d-flex">
           <div class="card flex-fill" style="width: 18rem;">
             <img src="<?php echo htmlspecialchars($prod['imagen']); ?>" class="card-img-top" alt="<?php echo htmlspecialchars($prod['nombre']); ?>">

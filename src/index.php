@@ -25,8 +25,8 @@ session_start();
         <div class="collapse navbar-collapse justify-content-between" id="navbarNav">
           <ul class="navbar-nav">
             <li class="nav-item"><a class="nav-link active" href="#">Inicio</a></li>
-            <li class="nav-item"><a class="nav-link" href="#productos">Productos</a></li>
-            <li class="nav-item"><a class="nav-link" href="#contacto">Contacto</a></li>
+            <li class="nav-item"><a class="nav-link" href="producto.php">Productos</a></li>
+            <li class="nav-item"><a class="nav-link" href="contacto.php">Contacto</a></li>
           </ul>
           <div class="d-flex align-items-center">
             <?php if (isset($_SESSION['usuario'])): ?>

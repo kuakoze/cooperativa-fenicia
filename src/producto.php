@@ -5,6 +5,11 @@ require_once 'conexiondb.php';
 // Obtener categorías para el filtro
 $categorias = $conexion->query("SELECT id, nombre FROM categorias ORDER BY nombre ASC");
 
+// --- Paginación ---
+$productosPorPagina = 6;
+$paginaActual = isset($_GET['pagina']) ? max(1, intval($_GET['pagina'])) : 1;
+$offset = ($paginaActual - 1) * $productosPorPagina;
+
 // Procesar filtros
 $where = [];
 $params = [];
@@ -28,15 +33,35 @@ if (!empty($_GET['categorias'])) {
     }
 }
 
-$sql = "SELECT * FROM productos";
+$sqlBase = "FROM productos";
 if ($where) {
-    $sql .= " WHERE " . implode(' AND ', $where);
+    $sqlBase .= " WHERE " . implode(' AND ', $where);
 }
-$sql .= " ORDER BY nombre ASC";
 
-$stmt = $conexion->prepare($sql);
+// --- Total de productos para paginación ---
+$sqlCount = "SELECT COUNT(*) $sqlBase";
+$stmtCount = $conexion->prepare($sqlCount);
 if ($params) {
-    $stmt->bind_param($types, ...$params);
+    $stmtCount->bind_param($types, ...$params);
+}
+$stmtCount->execute();
+$stmtCount->bind_result($totalProductos);
+$stmtCount->fetch();
+$stmtCount->close();
+$totalPaginas = ceil($totalProductos / $productosPorPagina);
+
+// --- Consulta de productos con paginación ---
+$sql = "SELECT * $sqlBase ORDER BY nombre ASC LIMIT ? OFFSET ?";
+if ($params) {
+    $paramsQuery = $params;
+    $paramsQuery[] = $productosPorPagina;
+    $paramsQuery[] = $offset;
+    $typesQuery = $types . 'ii';
+    $stmt = $conexion->prepare($sql);
+    $stmt->bind_param($typesQuery, ...$paramsQuery);
+} else {
+    $stmt = $conexion->prepare($sql);
+    $stmt->bind_param('ii', $productosPorPagina, $offset);
 }
 $stmt->execute();
 $res = $stmt->get_result();
@@ -49,6 +74,18 @@ $res = $stmt->get_result();
   <title>Productos - Cooperativa Fenicia</title>
   <link href="estilos.css" rel="stylesheet" />
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <style>
+    .product-img {
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
+      object-position: center;
+      border-radius: 0.375rem 0.375rem 0 0;
+    }
+    .input-cantidad {
+      max-width: 90px;
+    }
+  </style>
 </head>
 <body class="d-flex flex-column min-vh-100">
   <!-- Header -->
@@ -89,27 +126,37 @@ $res = $stmt->get_result();
     <div class="container">
       <h2 class="mb-4">Nuestros Productos</h2>
 
-      <!-- Filtro de búsqueda -->
-      <form class="card card-body mb-4" method="get" action="producto.php">
-        <div class="row g-3 align-items-end">
-          <div class="col-md-4">
-            <label for="nombre" class="form-label">Buscar por nombre</label>
-            <input type="text" class="form-control" id="nombre" name="nombre" value="<?php echo htmlspecialchars($_GET['nombre'] ?? ''); ?>">
+      <!-- Filtro de búsqueda mejorado y unificado -->
+      <form class="card card-body mb-4 shadow-sm bg-light border-0" method="get" action="producto.php">
+        <div class="row g-3 mb-2">
+          <div class="col-12">
+            <label for="nombre" class="form-label fw-bold">Buscar por nombre</label>
+            <input type="text" class="form-control" id="nombre" name="nombre" value="<?php echo htmlspecialchars($_GET['nombre'] ?? ''); ?>" placeholder="Introduce el nombre...">
           </div>
-          <div class="col-md-6">
-            <label class="form-label">Filtrar por categoría</label>
-            <div class="d-flex flex-wrap gap-2">
-              <?php foreach ($categorias as $cat): ?>
-                <div class="form-check form-check-inline">
-                  <input class="form-check-input" type="checkbox" id="cat_<?php echo $cat['id']; ?>" name="categorias[]" value="<?php echo $cat['id']; ?>"
-                    <?php if (!empty($_GET['categorias']) && in_array($cat['id'], $_GET['categorias'])) echo 'checked'; ?>>
-                  <label class="form-check-label" for="cat_<?php echo $cat['id']; ?>"><?php echo htmlspecialchars($cat['nombre']); ?></label>
-                </div>
-              <?php endforeach; ?>
+        </div>
+        <div class="row g-3 align-items-end">
+          <div class="col-12 col-md-10">
+            <label class="form-label fw-bold">Filtrar por categoría</label>
+            <div class="rounded p-2 border bg-light">
+              <div class="row">
+                <?php
+                $i = 0;
+                foreach ($categorias as $cat):
+                  if ($i % 3 === 0 && $i > 0) echo '</div><div class="row">';
+                ?>
+                  <div class="col-12 col-md-4 mb-1">
+                    <div class="form-check">
+                      <input class="form-check-input" type="checkbox" id="cat_<?php echo $cat['id']; ?>" name="categorias[]" value="<?php echo $cat['id']; ?>"
+                        <?php if (!empty($_GET['categorias']) && in_array($cat['id'], $_GET['categorias'])) echo 'checked'; ?>>
+                      <label class="form-check-label" for="cat_<?php echo $cat['id']; ?>"><?php echo htmlspecialchars($cat['nombre']); ?></label>
+                    </div>
+                  </div>
+                <?php $i++; endforeach; ?>
+              </div>
             </div>
           </div>
-          <div class="col-md-2">
-            <button type="submit" class="btn btn-primary w-100">Buscar</button>
+          <div class="col-12 col-md-2 d-flex justify-content-center align-items-end">
+            <button type="submit" class="btn btn-success w-100">Buscar</button>
           </div>
         </div>
       </form>
@@ -121,19 +168,77 @@ $res = $stmt->get_result();
           </div>
         <?php endif; ?>
         <?php while ($prod = $res->fetch_assoc()): ?>
+        <?php
+          // Obtener categorías del producto
+          $catRes = $conexion->query("SELECT c.nombre FROM categorias c INNER JOIN producto_categoria pc ON c.id = pc.categoria_id WHERE pc.producto_id = " . intval($prod['id']));
+          $catNombres = [];
+          while ($catRow = $catRes->fetch_assoc()) {
+            $catNombres[] = $catRow['nombre'];
+          }
+        ?>
         <div class="col-12 col-sm-6 col-md-4 col-lg-3 d-flex">
-          <div class="card flex-fill" style="width: 18rem;">
-            <img src="<?php echo htmlspecialchars($prod['imagen']); ?>" class="card-img-top" alt="<?php echo htmlspecialchars($prod['nombre']); ?>">
-            <div class="card-body d-flex flex-column">
+          <div class="card flex-fill h-100" style="width: 18rem;">
+            <img src="<?php echo htmlspecialchars($prod['imagen']); ?>" class="product-img" alt="<?php echo htmlspecialchars($prod['nombre']); ?>">
+            <div class="card-body d-flex flex-column h-100">
               <h5 class="card-title"><?php echo htmlspecialchars($prod['nombre']); ?></h5>
               <p class="card-text"><?php echo htmlspecialchars($prod['descripcion']); ?></p>
+              <p class="card-text mb-1"><strong>Stock:</strong> <?php echo intval($prod['stock']); ?></p>
+              <p class="card-text mb-1"><strong>Categoría<?php echo count($catNombres) > 1 ? 's' : ''; ?>:</strong>
+                <?php echo htmlspecialchars(implode(', ', $catNombres)); ?>
+              </p>
               <p class="card-text fw-bold mb-2">Precio: <?php echo number_format($prod['precio'], 2); ?> €</p>
-              <a href="#" class="btn btn-primary mt-auto">Ver más</a>
+              <div class="mt-auto d-flex flex-column gap-2">
+                <form oninput="
+                  this.unidades.value = Math.min(Math.max(this.unidades.value, 1), <?php echo intval($prod['stock']); ?>);
+                  this.querySelector('button[type=submit]').disabled = (this.unidades.value < 1 || this.unidades.value > <?php echo intval($prod['stock']); ?>);
+                " class="d-flex align-items-center gap-2" action="#" method="post">
+                  <input type="number" name="unidades" class="form-control input-cantidad" min="1" max="<?php echo intval($prod['stock']); ?>" value="1"
+                    <?php if ($prod['stock'] < 1) echo 'disabled'; ?>>
+                  <button type="submit" class="btn btn-success"
+                    <?php if ($prod['stock'] < 1) echo 'disabled'; ?>>Añadir al carro</button>
+                </form>
+                <a href="#" class="btn btn-primary">Ver más</a>
+              </div>
             </div>
           </div>
         </div>
         <?php endwhile; ?>
       </div>
+
+      <!-- PAGINACIÓN -->
+      <?php if ($totalPaginas > 1): ?>
+      <!-- Aquí empieza la paginación -->
+      <nav aria-label="Paginación de productos" class="mt-4">
+        <ul class="pagination justify-content-center">
+          <li class="page-item<?php if ($paginaActual <= 1) echo ' disabled'; ?>">
+            <a class="page-link" href="?<?php
+              $paramsPag = $_GET;
+              $paramsPag['pagina'] = $paginaActual - 1;
+              echo http_build_query($paramsPag);
+            ?>">Anterior</a>
+          </li>
+          <?php for ($i = 1; $i <= $totalPaginas; $i++): ?>
+            <li class="page-item<?php if ($i == $paginaActual) echo ' active'; ?>">
+              <a class="page-link" href="?<?php
+                $paramsPag = $_GET;
+                $paramsPag['pagina'] = $i;
+                echo http_build_query($paramsPag);
+              ?>"><?php echo $i; ?></a>
+            </li>
+          <?php endfor; ?>
+          <li class="page-item<?php if ($paginaActual >= $totalPaginas) echo ' disabled'; ?>">
+            <a class="page-link" href="?<?php
+              $paramsPag = $_GET;
+              $paramsPag['pagina'] = $paginaActual + 1;
+              echo http_build_query($paramsPag);
+            ?>">Siguiente</a>
+          </li>
+        </ul>
+      </nav>
+      <!-- Aquí termina la paginación -->
+      <?php endif; ?>
+      <!-- FIN PAGINACIÓN -->
+
     </div>
   </main>
 

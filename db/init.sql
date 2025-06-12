@@ -58,6 +58,31 @@ CREATE TABLE IF NOT EXISTS detalle_pedido (
         ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB;
 
+-- TABLA MENSAJES DE CONTACTO
+CREATE TABLE IF NOT EXISTS mensajes_contacto (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nombre VARCHAR(100) NOT NULL,
+    email VARCHAR(255) NOT NULL,
+    mensaje TEXT NOT NULL,
+    fecha DATETIME DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB;
+
+
+-- ... (todas las CREATE TABLE ...)
+
+-- Insertar categorías de ejemplo
+INSERT INTO categorias (nombre) VALUES
+('Control de plagas'),
+('fertilizantes'),
+('fungicidas'),
+('mallas'),
+('plasticos'),
+('polinizadores'),
+('rafias'),
+('otros');
+
 -- Se crea el admin
 INSERT INTO usuarios (nombre, apellidos, email, password, direccion, telefono, rol)
 VALUES ('admin', 'Principal', 'admin@ejemplo.com', '123admin456', 'Direccion', '123456789', 'admin');
+
+

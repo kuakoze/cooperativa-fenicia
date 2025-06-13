@@ -1,16 +1,21 @@
 <?php
+// filepath: c:\Users\6003411\Documents\GitHub\cooperativa-fenicia\src\admin\buzon.php
 session_start();
 if (!isset($_SESSION['email']) || $_SESSION['email'] !== 'admin@ejemplo.com') {
     header('Location: ../index.php');
     exit();
 }
+require_once '../conexiondb.php';
+
+// Obtener mensajes de contacto
+$mensajes = $conexion->query("SELECT nombre, email, mensaje, fecha FROM mensajes_contacto ORDER BY fecha DESC");
 ?>
 <!DOCTYPE html>
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Panel de Administración - Cooperativa Fenicia</title>
+  <title>Buzón de mensajes - Cooperativa Fenicia</title>
   <link href="../estilos.css" rel="stylesheet" />
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
 </head>
@@ -25,13 +30,11 @@ if (!isset($_SESSION['email']) || $_SESSION['email'] !== 'admin@ejemplo.com') {
         </button>
         <div class="collapse navbar-collapse justify-content-between" id="navbarNav">
           <ul class="navbar-nav">
-            <li class="nav-item"><a class="nav-link active" href="admin.php">Inicio</a></li>
+            <li class="nav-item"><a class="nav-link" href="admin.php">Inicio</a></li>
             <li class="nav-item"><a class="nav-link" href="../producto.php">Productos</a></li>
             <li class="nav-item"><a class="nav-link" href="../contacto.php">Contacto</a></li>
             <li class="nav-item"><a class="nav-link" href="modificaciones.php">Modificaciones</a></li>
-            <li class="nav-item"><a class="nav-link" href="buzon.php">Buzon</a></li>
-            <li class="nav-item"><a class="nav-link" href="facturas.php">Facturas</a></li>
-
+            <li class="nav-item"><a class="nav-link active" href="buzon.php">Buzón</a></li>
           </ul>
           <div class="d-flex align-items-center">
             <span class="me-3 text-white fw-bold">¡Bienvenido, <?php echo htmlspecialchars($_SESSION['usuario']); ?>!</span>
@@ -44,26 +47,37 @@ if (!isset($_SESSION['email']) || $_SESSION['email'] !== 'admin@ejemplo.com') {
     </nav>
   </header>
 
-  <!-- ALERTA ADMIN -->
-  <div class="container mt-3">
-    <div class="alert alert-success" role="alert">
-      Logeado como admin
-    </div>
-  </div>
-
   <!-- Main -->
   <main class="flex-grow-1 py-4">
-    <section class="contenedor-principal d-flex flex-column flex-lg-row align-items-center justify-content-center">
-      <div class="contenedor-imagen d-flex justify-content-center align-items-center mb-4 mb-lg-0">
-        <img src="../imagenes/cooperativa-fenicia.jpg" alt="Cooperativa Fenicia" class="img-fluid imagen-cooperativa" />
-      </div>
-      <div class="contenedor-descripcion px-3">
-        <h2 class="mb-3">Nuestra Idiosincrasia</h2>
-        <p>
-          En la Cooperativa Fenicia nos une la pasión por la agricultura sostenible, la solidaridad entre nuestros socios y el compromiso con el desarrollo rural. Apostamos por la innovación, el trabajo en equipo y el respeto al medio ambiente para construir un futuro mejor para todos.
-        </p>
-      </div>
-    </section>
+    <div class="container">
+      <h2 class="mb-4">Buzón de mensajes de contacto</h2>
+      <?php if ($mensajes->num_rows === 0): ?>
+        <div class="alert alert-info text-center">No hay mensajes en el buzón.</div>
+      <?php else: ?>
+        <div class="table-responsive">
+          <table class="table table-bordered table-hover align-middle">
+            <thead class="table-success">
+              <tr>
+                <th>Nombre</th>
+                <th>Email</th>
+                <th>Mensaje</th>
+                <th>Fecha</th>
+              </tr>
+            </thead>
+            <tbody>
+              <?php while ($row = $mensajes->fetch_assoc()): ?>
+                <tr>
+                  <td><?php echo htmlspecialchars($row['nombre']); ?></td>
+                  <td><?php echo htmlspecialchars($row['email']); ?></td>
+                  <td><?php echo nl2br(htmlspecialchars($row['mensaje'])); ?></td>
+                  <td><?php echo htmlspecialchars($row['fecha']); ?></td>
+                </tr>
+              <?php endwhile; ?>
+            </tbody>
+          </table>
+        </div>
+      <?php endif; ?>
+    </div>
   </main>
 
   <footer class="footer-custom text-white text-center py-3 mt-4">

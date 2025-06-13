@@ -104,6 +104,7 @@ $res = $stmt->get_result();
             <?php if (isset($_SESSION['email']) && $_SESSION['email'] === 'admin@ejemplo.com'): ?>
               <li class="nav-item"><a class="nav-link" href="admin/modificaciones.php">Modificaciones</a></li>
             <?php endif; ?>
+            <li class="nav-item"><a class="nav-link" href="carrito.php">Carrito</a></li>
           </ul>
           <div class="d-flex align-items-center">
             <?php if (isset($_SESSION['usuario'])): ?>
@@ -188,10 +189,9 @@ $res = $stmt->get_result();
               </p>
               <p class="card-text fw-bold mb-2">Precio: <?php echo number_format($prod['precio'], 2); ?> €</p>
               <div class="mt-auto d-flex flex-column gap-2">
-                <form oninput="
-                  this.unidades.value = Math.min(Math.max(this.unidades.value, 1), <?php echo intval($prod['stock']); ?>);
-                  this.querySelector('button[type=submit]').disabled = (this.unidades.value < 1 || this.unidades.value > <?php echo intval($prod['stock']); ?>);
-                " class="d-flex align-items-center gap-2" action="#" method="post">
+                <form method="POST" action="agregar_carrito.php" class="d-flex align-items-center gap-2">
+                  <input type="hidden" name="producto_id" value="<?php echo $prod['id']; ?>">
+                  <input type="hidden" name="return_url" value="<?php echo htmlspecialchars($_SERVER['REQUEST_URI']); ?>">
                   <input type="number" name="unidades" class="form-control input-cantidad" min="1" max="<?php echo intval($prod['stock']); ?>" value="1"
                     <?php if ($prod['stock'] < 1) echo 'disabled'; ?>>
                   <button type="submit" class="btn btn-success"

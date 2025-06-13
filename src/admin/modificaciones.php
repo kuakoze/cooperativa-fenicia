@@ -1,10 +1,10 @@
 <?php
-
 session_start();
 if (!isset($_SESSION['email']) || $_SESSION['email'] !== 'admin@ejemplo.com') {
     header('Location: ../index.php');
     exit();
 }
+require_once '../conexiondb.php';
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -30,6 +30,7 @@ if (!isset($_SESSION['email']) || $_SESSION['email'] !== 'admin@ejemplo.com') {
             <li class="nav-item"><a class="nav-link" href="../producto.php">Productos</a></li>
             <li class="nav-item"><a class="nav-link" href="../contacto.php">Contacto</a></li>
             <li class="nav-item"><a class="nav-link active" href="modificaciones.php">Modificaciones</a></li>
+            <li class="nav-item"><a class="nav-link" href="buzon.php">Buzón</a></li>
           </ul>
           <div class="d-flex align-items-center">
             <span class="me-3 text-white fw-bold">¡Bienvenido, <?php echo htmlspecialchars($_SESSION['usuario']); ?>!</span>
@@ -52,12 +53,13 @@ if (!isset($_SESSION['email']) || $_SESSION['email'] !== 'admin@ejemplo.com') {
       <form>
         <label for="modSelect" class="form-label">Seleccione una opción para modificar:</label>
         <select class="form-select form-select-lg mb-3" id="modSelect" aria-label="Large select example">
-          <option selected value="">Elige una opcion</option>
+          <option selected value="">Elige una opción</option>
           <option value="1">Subir un producto</option>
           <option value="2">Modificar un producto</option>
           <option value="3">Eliminar un producto</option>
-          <option value="4">Crear una nueva categoria</option>
-          <option value="5">Eliminar una categoria</option>
+          <option value="4">Crear una nueva categoría</option>
+          <option value="5">Eliminar una categoría</option>
+          <option value="6">Ver pedidos</option>
         </select>
       </form>
 
@@ -89,7 +91,6 @@ if (!isset($_SESSION['email']) || $_SESSION['email'] !== 'admin@ejemplo.com') {
             <label class="form-label">Categorías</label>
             <div>
               <?php
-              require_once '../conexiondb.php';
               $res = $conexion->query("SELECT id, nombre FROM categorias ORDER BY nombre ASC");
               while ($row = $res->fetch_assoc()):
               ?>
@@ -218,6 +219,65 @@ if (!isset($_SESSION['email']) || $_SESSION['email'] !== 'admin@ejemplo.com') {
           </table>
         </div>
       </div>
+
+      <!-- Tabla para ver pedidos (oculta por defecto) -->
+      <div id="tablaVerPedidos" class="card p-4 mb-3" style="display:none;">
+        <h5 class="mb-3">Pedidos realizados</h5>
+        <div class="table-responsive">
+          <table class="table table-bordered align-middle">
+            <thead>
+              <tr>
+                <th>ID Pedido</th>
+                <th>Usuario</th>
+                <th>Fecha</th>
+                <th>Total</th>
+                <th>Detalles</th>
+              </tr>
+            </thead>
+            <tbody>
+              <?php
+              $pedidos = $conexion->query("SELECT p.id, u.email, p.fecha, p.total 
+                                           FROM pedidos p 
+                                           JOIN usuarios u ON p.usuario_id = u.id 
+                                           ORDER BY p.fecha DESC");
+              while ($pedido = $pedidos->fetch_assoc()):
+              ?>
+              <tr>
+                <td><?php echo $pedido['id']; ?></td>
+                <td><?php echo htmlspecialchars($pedido['email']); ?></td>
+                <td><?php echo $pedido['fecha']; ?></td>
+                <td><?php echo number_format($pedido['total'], 2); ?> €</td>
+                <td>
+                  <button class="btn btn-sm btn-info" type="button" data-bs-toggle="collapse" data-bs-target="#detalles_<?php echo $pedido['id']; ?>">
+                    Ver detalles
+                  </button>
+                </td>
+              </tr>
+              <tr class="collapse" id="detalles_<?php echo $pedido['id']; ?>">
+                <td colspan="5">
+                  <strong>Productos:</strong>
+                  <ul class="mb-0">
+                    <?php
+                    $detalles = $conexion->query("SELECT dp.cantidad, dp.precio_unitario, pr.nombre 
+                                                  FROM detalle_pedido dp 
+                                                  JOIN productos pr ON dp.producto_id = pr.id 
+                                                  WHERE dp.pedido_id = " . intval($pedido['id']));
+                    while ($detalle = $detalles->fetch_assoc()):
+                    ?>
+                      <li>
+                        <?php echo htmlspecialchars($detalle['nombre']); ?> - 
+                        <?php echo intval($detalle['cantidad']); ?> ud. x 
+                        <?php echo number_format($detalle['precio_unitario'], 2); ?> €
+                      </li>
+                    <?php endwhile; ?>
+                  </ul>
+                </td>
+              </tr>
+              <?php endwhile; ?>
+            </tbody>
+          </table>
+        </div>
+      </div>
     </div>
   </main>
 
@@ -235,42 +295,56 @@ if (!isset($_SESSION['email']) || $_SESSION['email'] !== 'admin@ejemplo.com') {
       const formSubirProd = document.getElementById('formSubirProducto');
       const tablaModProd = document.getElementById('tablaModificarProducto');
       const formDelProd = document.getElementById('formEliminarProducto');
+      const tablaVerPedidos = document.getElementById('tablaVerPedidos');
       if (this.value === '4') {
         formCat.style.display = 'block';
         formDelCat.style.display = 'none';
         formSubirProd.style.display = 'none';
         tablaModProd.style.display = 'none';
         formDelProd.style.display = 'none';
+        tablaVerPedidos.style.display = 'none';
       } else if (this.value === '5') {
         formCat.style.display = 'none';
         formDelCat.style.display = 'block';
         formSubirProd.style.display = 'none';
         tablaModProd.style.display = 'none';
         formDelProd.style.display = 'none';
+        tablaVerPedidos.style.display = 'none';
       } else if (this.value === '1') {
         formCat.style.display = 'none';
         formDelCat.style.display = 'none';
         formSubirProd.style.display = 'block';
         tablaModProd.style.display = 'none';
         formDelProd.style.display = 'none';
+        tablaVerPedidos.style.display = 'none';
       } else if (this.value === '2') {
         formCat.style.display = 'none';
         formDelCat.style.display = 'none';
         formSubirProd.style.display = 'none';
         tablaModProd.style.display = 'block';
         formDelProd.style.display = 'none';
+        tablaVerPedidos.style.display = 'none';
       } else if (this.value === '3') {
         formCat.style.display = 'none';
         formDelCat.style.display = 'none';
         formSubirProd.style.display = 'none';
         tablaModProd.style.display = 'none';
         formDelProd.style.display = 'block';
+        tablaVerPedidos.style.display = 'none';
+      } else if (this.value === '6') {
+        formCat.style.display = 'none';
+        formDelCat.style.display = 'none';
+        formSubirProd.style.display = 'none';
+        tablaModProd.style.display = 'none';
+        formDelProd.style.display = 'none';
+        tablaVerPedidos.style.display = 'block';
       } else {
         formCat.style.display = 'none';
         formDelCat.style.display = 'none';
         formSubirProd.style.display = 'none';
         tablaModProd.style.display = 'none';
         formDelProd.style.display = 'none';
+        tablaVerPedidos.style.display = 'none';
       }
     });
   </script>

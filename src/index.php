@@ -27,6 +27,8 @@ session_start();
             <li class="nav-item"><a class="nav-link active" href="#">Inicio</a></li>
             <li class="nav-item"><a class="nav-link" href="producto.php">Productos</a></li>
             <li class="nav-item"><a class="nav-link" href="contacto.php">Contacto</a></li>
+            <li class="nav-item"><a class="nav-link" href="carrito.php">Carrito</a></li>
+
             <?php if (isset($_SESSION['email']) && $_SESSION['email'] === 'admin@ejemplo.com'): ?>
               <li class="nav-item"><a class="nav-link" href="admin/modificaciones.php">Modificaciones</a></li>
             <?php endif; ?>

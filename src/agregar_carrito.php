@@ -1,7 +1,6 @@
 <?php
 session_start();
-// Solo usuarios registrados pueden agregar productos al carrito
-if (!isset($_SESSION['usuario']) || !isset($_SESSION['email'])) {
+if (!isset($_SESSION['usuario'])) {
     header('Location: login.php');
     exit();
 }

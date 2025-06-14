@@ -20,7 +20,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $_SESSION['email'] = $usuario['email'];
 
             if ($_SESSION['email'] === 'admin@ejemplo.com') { // Pon aquí el email real del admin
-                header('Location: admin/modificaciones.php');
+                header('Location: admin/admin.php');
             } else {
                 header('Location: index.php');
             }

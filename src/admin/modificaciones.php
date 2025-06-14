@@ -20,19 +20,17 @@ require_once '../conexiondb.php';
   <header>
     <nav class="navbar navbar-expand-lg navbar-dark navbar-custom">
       <div class="container">
-        <a class="navbar-brand" >Cooperativa Fenicia</a>
+        <a class="navbar-brand" href="../index.php">Cooperativa Fenicia</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
           <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse justify-content-between" id="navbarNav">
           <ul class="navbar-nav">
-            
-            
-            <li class="nav-item"><a class="nav-link" href="modificaciones.php">Modificaciones</a></li>
-            <li class="nav-item"><a class="nav-link" href="buzon.php">Buzon</a></li>
-            <li class="nav-item"><a class="nav-link" href="pedidos.php">Pedidos</a></li>
-            
-
+            <li class="nav-item"><a class="nav-link" href="admin.php">Inicio</a></li>
+            <li class="nav-item"><a class="nav-link" href="../producto.php">Productos</a></li>
+            <li class="nav-item"><a class="nav-link" href="../contacto.php">Contacto</a></li>
+            <li class="nav-item"><a class="nav-link active" href="modificaciones.php">Modificaciones</a></li>
+            <li class="nav-item"><a class="nav-link" href="buzon.php">Buzón</a></li>
           </ul>
           <div class="d-flex align-items-center">
             <span class="me-3 text-white fw-bold">¡Bienvenido, <?php echo htmlspecialchars($_SESSION['usuario']); ?>!</span>
@@ -62,7 +60,6 @@ require_once '../conexiondb.php';
           <option value="4">Crear una nueva categoría</option>
           <option value="5">Eliminar una categoría</option>
           <option value="6">Ver pedidos</option>
-          <option value="7">Ver productos</option>
         </select>
       </form>
 
@@ -281,26 +278,6 @@ require_once '../conexiondb.php';
           </table>
         </div>
       </div>
-
-      <!-- Cards de productos (oculto por defecto) -->
-      <div id="verProductos" style="display:none;">
-        <div class="row">
-        <?php
-        $res = $conexion->query("SELECT nombre, descripcion, imagen FROM productos ORDER BY nombre ASC");
-        while ($row = $res->fetch_assoc()):
-        ?>
-          <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-4">
-            <div class="card" style="width: 18rem;">
-              <img src="../<?php echo htmlspecialchars($row['imagen']); ?>" class="card-img-top" alt="<?php echo htmlspecialchars($row['nombre']); ?>">
-              <div class="card-body">
-                <h5 class="card-title"><?php echo htmlspecialchars($row['nombre']); ?></h5>
-                <p class="card-text"><?php echo htmlspecialchars($row['descripcion']); ?></p>
-              </div>
-            </div>
-          </div>
-        <?php endwhile; ?>
-        </div>
-      </div>
     </div>
   </main>
 
@@ -319,7 +296,6 @@ require_once '../conexiondb.php';
       const tablaModProd = document.getElementById('tablaModificarProducto');
       const formDelProd = document.getElementById('formEliminarProducto');
       const tablaVerPedidos = document.getElementById('tablaVerPedidos');
-      const verProductos = document.getElementById('verProductos');
       if (this.value === '4') {
         formCat.style.display = 'block';
         formDelCat.style.display = 'none';
@@ -327,7 +303,6 @@ require_once '../conexiondb.php';
         tablaModProd.style.display = 'none';
         formDelProd.style.display = 'none';
         tablaVerPedidos.style.display = 'none';
-        verProductos.style.display = 'none';
       } else if (this.value === '5') {
         formCat.style.display = 'none';
         formDelCat.style.display = 'block';
@@ -335,7 +310,6 @@ require_once '../conexiondb.php';
         tablaModProd.style.display = 'none';
         formDelProd.style.display = 'none';
         tablaVerPedidos.style.display = 'none';
-        verProductos.style.display = 'none';
       } else if (this.value === '1') {
         formCat.style.display = 'none';
         formDelCat.style.display = 'none';
@@ -343,7 +317,6 @@ require_once '../conexiondb.php';
         tablaModProd.style.display = 'none';
         formDelProd.style.display = 'none';
         tablaVerPedidos.style.display = 'none';
-        verProductos.style.display = 'none';
       } else if (this.value === '2') {
         formCat.style.display = 'none';
         formDelCat.style.display = 'none';
@@ -351,7 +324,6 @@ require_once '../conexiondb.php';
         tablaModProd.style.display = 'block';
         formDelProd.style.display = 'none';
         tablaVerPedidos.style.display = 'none';
-        verProductos.style.display = 'none';
       } else if (this.value === '3') {
         formCat.style.display = 'none';
         formDelCat.style.display = 'none';
@@ -359,7 +331,6 @@ require_once '../conexiondb.php';
         tablaModProd.style.display = 'none';
         formDelProd.style.display = 'block';
         tablaVerPedidos.style.display = 'none';
-        verProductos.style.display = 'none';
       } else if (this.value === '6') {
         formCat.style.display = 'none';
         formDelCat.style.display = 'none';
@@ -367,15 +338,6 @@ require_once '../conexiondb.php';
         tablaModProd.style.display = 'none';
         formDelProd.style.display = 'none';
         tablaVerPedidos.style.display = 'block';
-        verProductos.style.display = 'none';
-      } else if (this.value === '7') {
-        formCat.style.display = 'none';
-        formDelCat.style.display = 'none';
-        formSubirProd.style.display = 'none';
-        tablaModProd.style.display = 'none';
-        formDelProd.style.display = 'none';
-        tablaVerPedidos.style.display = 'none';
-        verProductos.style.display = 'block';
       } else {
         formCat.style.display = 'none';
         formDelCat.style.display = 'none';
@@ -383,7 +345,6 @@ require_once '../conexiondb.php';
         tablaModProd.style.display = 'none';
         formDelProd.style.display = 'none';
         tablaVerPedidos.style.display = 'none';
-        verProductos.style.display = 'none';
       }
     });
   </script>

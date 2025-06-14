@@ -189,14 +189,21 @@ $res = $stmt->get_result();
               </p>
               <p class="card-text fw-bold mb-2">Precio: <?php echo number_format($prod['precio'], 2); ?> €</p>
               <div class="mt-auto d-flex flex-column gap-2">
-                <form method="POST" action="agregar_carrito.php" class="d-flex align-items-center gap-2">
-                  <input type="hidden" name="producto_id" value="<?php echo $prod['id']; ?>">
-                  <input type="hidden" name="return_url" value="<?php echo htmlspecialchars($_SERVER['REQUEST_URI']); ?>">
-                  <input type="number" name="unidades" class="form-control input-cantidad" min="1" max="<?php echo intval($prod['stock']); ?>" value="1"
-                    <?php if ($prod['stock'] < 1) echo 'disabled'; ?>>
-                  <button type="submit" class="btn btn-success"
-                    <?php if ($prod['stock'] < 1) echo 'disabled'; ?>>Añadir al carro</button>
-                </form>
+                <?php if (isset($_SESSION['usuario']) && isset($_SESSION['email'])): ?>
+                  <form method="POST" action="agregar_carrito.php" class="d-flex align-items-center gap-2">
+                    <input type="hidden" name="producto_id" value="<?php echo $prod['id']; ?>">
+                    <input type="hidden" name="return_url" value="<?php echo htmlspecialchars($_SERVER['REQUEST_URI']); ?>">
+                    <input type="number" name="unidades" class="form-control input-cantidad" min="1" max="<?php echo intval($prod['stock']); ?>" value="1"
+                      <?php if ($prod['stock'] < 1) echo 'disabled'; ?>>
+                    <button type="submit" class="btn btn-success"
+                      <?php if ($prod['stock'] < 1) echo 'disabled'; ?>>Añadir al carro</button>
+                  </form>
+                <?php else: ?>
+                  <div class="d-flex align-items-center gap-2">
+                    <input type="number" class="form-control input-cantidad" min="1" value="1" disabled>
+                    <button type="button" class="btn btn-success" onclick="mostrarModalRegistro()">Añadir al carro</button>
+                  </div>
+                <?php endif; ?>
                 <a href="#" class="btn btn-primary">Ver más</a>
               </div>
             </div>
@@ -313,6 +320,30 @@ $res = $stmt->get_result();
     </div>
   </div>
 </div>
+
+<!-- MODAL SOLO MENSAJE REGISTRO -->
+<div class="modal fade" id="modalAvisoRegistro" tabindex="-1" aria-labelledby="modalAvisoRegistroLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalAvisoRegistroLabel">Aviso</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+      </div>
+      <div class="modal-body text-center">
+        Para añadir al carrito necesitas registrarte.
+      </div>
+      <div class="modal-footer justify-content-center">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+      </div>
+    </div>
+  </div>
+</div>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+function mostrarModalRegistro() {
+  var modal = new bootstrap.Modal(document.getElementById('modalAvisoRegistro'));
+  modal.show();
+}
+</script>
 </body>
 </html>

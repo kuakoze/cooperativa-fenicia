@@ -3,9 +3,26 @@
 session_start();
 require_once 'conexiondb.php';
 
-// Solo usuarios registrados pueden usar el carrito
-if (!isset($_SESSION['usuario']) || !isset($_SESSION['email'])) {
-    header('Location: login.php');
+if (!isset($_SESSION['usuario'])) {
+    // Mostrar mensaje amigable si no está logueado
+    echo '<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Carrito de la compra - Cooperativa Fenicia</title>
+  <link href="estilos.css" rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+</head>
+<body class="d-flex flex-column min-vh-100">
+  <div class="container py-5">
+    <div class="alert alert-warning text-center mt-5">
+      <h4 class="mb-3">Debes registrarte o iniciar sesión para ver el carrito.</h4>
+      <a href="index.php" class="btn btn-success">Volver al inicio</a>
+    </div>
+  </div>
+</body>
+</html>';
     exit();
 }
 
@@ -101,7 +118,7 @@ if ($carrito) {
             </tfoot>
           </table>
         </div>
-        <form method="POST" action="procesar_pedido.php" class="text-center" id="form_procesar_pedido">
+        <form method="POST" action="procesar_pedido.php" class="text-center">
           <button type="submit" class="btn btn-success btn-lg">Procesar pedido</button>
         </form>
       <?php endif; ?>
@@ -112,109 +129,6 @@ if ($carrito) {
       <small>&copy; 2025 Cooperativa Fenicia. Todos los derechos reservados.</small>
     </div>
   </footer>
-  <div class="modal fade" id="modal_registro_pedido" tabindex="-1" aria-labelledby="modal_registro_pedido_label" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="modal_registro_pedido_label">Atención</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
-        </div>
-        <div class="modal-body">
-          Debes estar registrado e iniciar sesión para realizar un pedido.
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Modal Registro -->
-  <div class="modal fade" id="modalRegistro" tabindex="-1" aria-labelledby="modalRegistroLabel" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="modalRegistroLabel">Registro de usuario</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
-        </div>
-        <form method="POST" action="registro.php">
-          <div class="modal-body">
-            <div class="mb-3">
-              <label for="nombre" class="form-label">Nombre</label>
-              <input type="text" class="form-control" id="nombre" name="nombre" required>
-            </div>
-            <div class="mb-3">
-              <label for="apellidos" class="form-label">Apellidos</label>
-              <input type="text" class="form-control" id="apellidos" name="apellidos" required>
-            </div>
-            <div class="mb-3">
-              <label for="email" class="form-label">Correo electrónico</label>
-              <input type="email" class="form-control" id="email" name="email" required>
-            </div>
-            <div class="mb-3">
-              <label for="password" class="form-label">Contraseña</label>
-              <input type="password" class="form-control" id="password" name="password" required>
-            </div>
-            <div class="mb-3">
-              <label for="direccion" class="form-label">Dirección</label>
-              <input type="text" class="form-control" id="direccion" name="direccion" required>
-            </div>
-            <div class="mb-3">
-              <label for="telefono" class="form-label">Teléfono</label>
-              <input type="tel" class="form-control" id="telefono" name="telefono" required>
-            </div>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-            <button type="submit" class="btn btn-success">Registrarse</button>
-          </div>
-        </form>
-      </div>
-    </div>
-  </div>
-
-  <!-- Modal Login -->
-  <div class="modal fade" id="modalLogin" tabindex="-1" aria-labelledby="modalLoginLabel" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="modalLoginLabel">Iniciar sesión</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
-        </div>
-        <form method="POST" action="login.php">
-          <div class="modal-body">
-            <div class="mb-3">
-              <label for="loginEmail" class="form-label">Correo electrónico</label>
-              <input type="email" class="form-control" id="loginEmail" name="email" required>
-            </div>
-            <div class="mb-3">
-              <label for="loginPassword" class="form-label">Contraseña</label>
-              <input type="password" class="form-control" id="loginPassword" name="password" required>
-            </div>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-            <button type="submit" class="btn btn-primary">Iniciar sesión</button>
-          </div>
-        </form>
-      </div>
-    </div>
-  </div>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-  <script>
-    var usuario_registrado = <?php echo isset($_SESSION['usuario']) ? 'true' : 'false'; ?>;
-    document.addEventListener('DOMContentLoaded', function() {
-      var form_procesar_pedido = document.getElementById('form_procesar_pedido');
-      if (form_procesar_pedido) {
-        form_procesar_pedido.addEventListener('submit', function(e) {
-          if (!usuario_registrado) {
-            e.preventDefault();
-            var modal = new bootstrap.Modal(document.getElementById('modal_registro_pedido'));
-            modal.show();
-          }
-        });
-      }
-    });
-  </script>
 </body>
 </html>

@@ -3,11 +3,6 @@
 session_start();
 require_once 'conexiondb.php';
 
-if (!isset($_SESSION['usuario'])) {
-    header('Location: login.php');
-    exit();
-}
-
 $carrito = $_SESSION['carrito'] ?? [];
 
 $productos = [];

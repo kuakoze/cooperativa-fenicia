@@ -83,7 +83,7 @@ session_start();
                   <label for="mensaje" class="form-label">Mensaje</label>
                   <textarea class="form-control" id="mensaje" name="mensaje" rows="4" required></textarea>
                 </div>
-                <button type="submit" class="btn btn-primary">Enviar</button>
+                <button type="submit" class="btn btn-success">Enviar</button>
               </form>
             </div>
           </div>

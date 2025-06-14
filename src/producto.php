@@ -6,7 +6,7 @@ require_once 'conexiondb.php';
 $categorias = $conexion->query("SELECT id, nombre FROM categorias ORDER BY nombre ASC");
 
 // --- Paginación ---
-$productosPorPagina = 6;
+$productosPorPagina = 8;
 $paginaActual = isset($_GET['pagina']) ? max(1, intval($_GET['pagina'])) : 1;
 $offset = ($paginaActual - 1) * $productosPorPagina;
 
@@ -77,7 +77,7 @@ $res = $stmt->get_result();
   <style>
     .product-img {
       width: 100%;
-      height: 180px;
+      height: 260px; /* Aumentado el tamaño de la imagen */
       object-fit: cover;
       object-position: center;
       border-radius: 0.375rem 0.375rem 0 0;
@@ -148,7 +148,7 @@ $res = $stmt->get_result();
                   <div class="col-12 col-md-4 mb-1">
                     <div class="form-check">
                       <input class="form-check-input" type="checkbox" id="cat_<?php echo $cat['id']; ?>" name="categorias[]" value="<?php echo $cat['id']; ?>"
-                        <?php if (!empty($_GET['categorias']) && in_array($cat['id'], $_GET['categorias'])) echo 'checked'; ?>>
+                        <?php if (!empty($_GET['categorias']) && in_array($cat['id'], $_GET['categorias'])) echo 'checked'; ?> />
                       <label class="form-check-label" for="cat_<?php echo $cat['id']; ?>"><?php echo htmlspecialchars($cat['nombre']); ?></label>
                     </div>
                   </div>
@@ -197,7 +197,7 @@ $res = $stmt->get_result();
                   <button type="submit" class="btn btn-success"
                     <?php if ($prod['stock'] < 1) echo 'disabled'; ?>>Añadir al carro</button>
                 </form>
-                <a href="#" class="btn btn-primary">Ver más</a>
+                <!-- Botón 'Ver más' eliminado -->
               </div>
             </div>
           </div>

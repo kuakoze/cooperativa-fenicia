@@ -118,3 +118,19 @@ body {
   }
 }
 
+/* Estilos para la paginación */
+.pagination .page-link {
+  color: #207a3b;
+  border-color: #34c759;
+  background-color: #fff;
+}
+.pagination .page-item.active .page-link {
+  background: linear-gradient(90deg, #34c759 60%, #207a3b 100%);
+  color: #fff;
+  border-color: #207a3b;
+}
+.pagination .page-link:hover {
+  background: #34c759;
+  color: #fff;
+}
+

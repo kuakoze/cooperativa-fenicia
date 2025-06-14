@@ -122,6 +122,43 @@ $res = $stmt->get_result();
     </nav>
   </header>
 
+  <!-- Modal para usuarios no logueados -->
+  <div class="modal fade" id="modal_registro_carrito" tabindex="-1" aria-labelledby="modal_registro_carrito_label" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="modal_registro_carrito_label">Atención</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+        </div>
+        <div class="modal-body">
+          Para añadir un producto a tu carrito de la compra debes registrarte o iniciar sesión.
+        </div>
+        <div class="modal-footer">
+          <a href="registro.php" class="btn btn-success">Registrarse</a>
+          <a href="login.php" class="btn btn-outline-primary">Iniciar sesión</a>
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Variable PHP para saber si el usuario está logueado
+    var usuario_logueado = <?php echo isset($_SESSION['usuario']) ? 'true' : 'false'; ?>;
+    document.addEventListener('DOMContentLoaded', function() {
+      var formularios_carrito = document.querySelectorAll('form[action="agregar_carrito.php"]');
+      formularios_carrito.forEach(function(formulario) {
+        formulario.addEventListener('submit', function(e) {
+          if (!usuario_logueado) {
+            e.preventDefault();
+            var modal = new bootstrap.Modal(document.getElementById('modal_registro_carrito'));
+            modal.show();
+          }
+        });
+      });
+    });
+  </script>
+
   <!-- Main -->
   <main class="flex-grow-1 py-4">
     <div class="container">

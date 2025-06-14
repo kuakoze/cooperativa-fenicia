@@ -58,7 +58,7 @@ session_start();
       </div>
       <!-- Descripcion -->
       <div class="contenedor-descripcion px-3">
-        <h2 class="mb-3">Bienvenidos a la Cooperativa Agrícola Fenicios</h2>
+        <h2 class="mb-3 centrar-titulo-index">Bienvenidos a la Cooperativa Agrícola Fenicios</h2>
         <p>Bienvenidos a la Cooperativa Agrícola de Adra
           En el corazón de la vega de Adra, donde el mar y la tierra se dan la mano, 
           nace nuestra cooperativa: un proyecto con alma local, 

@@ -24,17 +24,19 @@ $mensajes = $conexion->query("SELECT nombre, email, mensaje, fecha FROM mensajes
   <header>
     <nav class="navbar navbar-expand-lg navbar-dark navbar-custom">
       <div class="container">
-        <a class="navbar-brand" href="admin.php">Cooperativa Fenicia</a>
+        <a class="navbar-brand">Cooperativa Fenicia</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
           <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse justify-content-between" id="navbarNav">
           <ul class="navbar-nav">
-            <li class="nav-item"><a class="nav-link" href="admin.php">Inicio</a></li>
-            <li class="nav-item"><a class="nav-link" href="../producto.php">Productos</a></li>
-            <li class="nav-item"><a class="nav-link" href="../contacto.php">Contacto</a></li>
+            
+            
             <li class="nav-item"><a class="nav-link" href="modificaciones.php">Modificaciones</a></li>
-            <li class="nav-item"><a class="nav-link active" href="buzon.php">Buzón</a></li>
+            <li class="nav-item"><a class="nav-link" href="buzon.php">Buzon</a></li>
+            <li class="nav-item"><a class="nav-link" href="pedidos.php">Pedidos</a></li>
+            
+
           </ul>
           <div class="d-flex align-items-center">
             <span class="me-3 text-white fw-bold">¡Bienvenido, <?php echo htmlspecialchars($_SESSION['usuario']); ?>!</span>

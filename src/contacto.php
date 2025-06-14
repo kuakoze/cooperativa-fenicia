@@ -88,17 +88,7 @@ session_start();
           </div>
         </div>
       </div>
-      <div class="row mt-4">
-        <div class="col-12">
-          <div class="card">
-            <div class="card-body p-2">
-              <iframe src="https://www.openstreetmap.org/export/embed.html?bbox=-3.7037902%2C40.4167754%2C-3.7037902%2C40.4167754&amp;layer=mapnik"
-                style="width:100%; height:300px; border:0;" allowfullscreen="" loading="lazy"></iframe>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+      
   </main>
 
   <footer class="footer-custom text-white text-center py-3 mt-4">

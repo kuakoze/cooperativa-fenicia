@@ -9,13 +9,14 @@ session_start();
   <title>Contacto - Cooperativa Fenicia</title>
   <link href="estilos.css" rel="stylesheet" />
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link rel="icon" type="image/png" href="fotos/logo.png">
 </head>
 <body class="d-flex flex-column min-vh-100">
   <!-- Header -->
   <header>
     <nav class="navbar navbar-expand-lg navbar-dark navbar-custom">
       <div class="container">
-        <a class="navbar-brand" href="index.php">Cooperativa Fenicia</a>
+        <a class="navbar-brand" href="index.php">Cooperativa Fenicios</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
           <span class="navbar-toggler-icon"></span>
         </button>
@@ -24,6 +25,7 @@ session_start();
             <li class="nav-item"><a class="nav-link" href="index.php">Inicio</a></li>
             <li class="nav-item"><a class="nav-link" href="producto.php">Productos</a></li>
             <li class="nav-item"><a class="nav-link active" href="contacto.php">Contacto</a></li>
+            <li class="nav-item"><a class="nav-link" href="carrito.php">Carrito</a></li>
             <?php if (isset($_SESSION['email']) && $_SESSION['email'] === 'admin@ejemplo.com'): ?>
               <li class="nav-item"><a class="nav-link" href="admin/modificaciones.php">Modificaciones</a></li>
             <?php endif; ?>
@@ -53,15 +55,13 @@ session_start();
           <div class="card h-100">
             <div class="card-body">
               <h5 class="card-title mb-3">Datos de contacto</h5>
-              <p class="mb-2"><strong>Dirección:</strong> Calle Ejemplo, 123, 28000 Ciudad, Provincia</p>
-              <p class="mb-2"><strong>Teléfono:</strong> <a href="tel:+34900123456">900 123 456</a></p>
-              <p class="mb-2"><strong>Email:</strong> <a href="mailto:info@cooperativafenicia.com">info@cooperativafenicia.com</a></p>
-              <p class="mb-2"><strong>Horario:</strong> Lunes a Viernes, 9:00 - 14:00 y 16:00 - 19:00</p>
+              <p class="mb-2"><strong>Dirección:</strong> Carretera Campillo, 27, 04770 Adra, Almeria</p>
+              <p class="mb-2"><strong>Teléfono:</strong> <a href="tel:+34612645678">+34612645678</a></p>
+              <p class="mb-2"><strong>Email:</strong> <a href="mailto:info@cooperativafenicios.com">info@cooperativafenicios.com</a></p>
+              <p class="mb-2"><strong>Horario:</strong> Lunes a Viernes, 7:00 - 13:00 y 15:00 - 17:00</p>
               <hr>
-              <h6 class="mb-2">Redes sociales</h6>
-              <a href="#" class="me-2"><img src="imagenes/facebook.svg" alt="Facebook" width="24"></a>
-              <a href="#" class="me-2"><img src="imagenes/twitter.svg" alt="Twitter" width="24"></a>
-              <a href="#"><img src="imagenes/instagram.svg" alt="Instagram" width="24"></a>
+              
+              <img src="fotos/logo.png" alt="logotipo" class="logo-contacto-img w-100" style="max-width:320px; height:auto; display:block; margin:auto;">
             </div>
           </div>
         </div>
@@ -82,23 +82,13 @@ session_start();
                   <label for="mensaje" class="form-label">Mensaje</label>
                   <textarea class="form-control" id="mensaje" name="mensaje" rows="4" required></textarea>
                 </div>
-                <button type="submit" class="btn btn-primary">Enviar</button>
+                <button type="submit" class="btn btn-success">Enviar</button>
               </form>
             </div>
           </div>
         </div>
       </div>
-      <div class="row mt-4">
-        <div class="col-12">
-          <div class="card">
-            <div class="card-body p-2">
-              <iframe src="https://www.openstreetmap.org/export/embed.html?bbox=-3.7037902%2C40.4167754%2C-3.7037902%2C40.4167754&amp;layer=mapnik"
-                style="width:100%; height:300px; border:0;" allowfullscreen="" loading="lazy"></iframe>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+      
   </main>
 
   <footer class="footer-custom text-white text-center py-3 mt-4">

@@ -20,17 +20,19 @@ require_once '../conexiondb.php';
   <header>
     <nav class="navbar navbar-expand-lg navbar-dark navbar-custom">
       <div class="container">
-        <a class="navbar-brand" href="../index.php">Cooperativa Fenicia</a>
+        <a class="navbar-brand" >Cooperativa Fenicios</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
           <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse justify-content-between" id="navbarNav">
           <ul class="navbar-nav">
-            <li class="nav-item"><a class="nav-link" href="admin.php">Inicio</a></li>
-            <li class="nav-item"><a class="nav-link" href="../producto.php">Productos</a></li>
-            <li class="nav-item"><a class="nav-link" href="../contacto.php">Contacto</a></li>
-            <li class="nav-item"><a class="nav-link active" href="modificaciones.php">Modificaciones</a></li>
-            <li class="nav-item"><a class="nav-link" href="buzon.php">Buzón</a></li>
+            
+            
+            <li class="nav-item"><a class="nav-link" href="modificaciones.php">Modificaciones</a></li>
+            <li class="nav-item"><a class="nav-link" href="buzon.php">Buzon</a></li>
+            <li class="nav-item"><a class="nav-link" href="pedidos.php">Pedidos</a></li>
+            
+
           </ul>
           <div class="d-flex align-items-center">
             <span class="me-3 text-white fw-bold">¡Bienvenido, <?php echo htmlspecialchars($_SESSION['usuario']); ?>!</span>
@@ -64,7 +66,7 @@ require_once '../conexiondb.php';
       </form>
 
       <!-- Formulario para subir producto (oculto por defecto) -->
-      <div id="formSubirProducto" class="card p-4 mb-3" style="display:none;">
+      <div id="formSubirProducto" class="card admin-card p-4 mb-3" style="display:none; background: linear-gradient(90deg, #e7f7ff 0%, #e7fff4 100%); border: 2px solid #34c759;">
         <h5 class="mb-3">Subir nuevo producto</h5>
         <form method="POST" action="subir_producto.php" enctype="multipart/form-data">
           <div class="mb-3">
@@ -102,12 +104,12 @@ require_once '../conexiondb.php';
             </div>
             <small class="form-text text-muted">Selecciona una o varias categorías.</small>
           </div>
-          <button type="submit" class="btn btn-primary">Subir producto</button>
+          <button type="submit" class="btn btn-success">Subir producto</button>
         </form>
       </div>
 
       <!-- Formulario para eliminar producto (oculto por defecto) -->
-      <div id="formEliminarProducto" class="card p-4 mb-3" style="display:none;">
+      <div id="formEliminarProducto" class="card admin-card p-4 mb-3" style="display:none; background: linear-gradient(90deg, #fff7e7 0%, #ffe7e7 100%); border: 2px solid #34c759;">
         <h5 class="mb-3">Eliminar producto</h5>
         <form method="POST" action="eliminar_producto.php">
           <div class="mb-3">
@@ -127,7 +129,7 @@ require_once '../conexiondb.php';
       </div>
 
       <!-- Formulario para crear nueva categoría (oculto por defecto) -->
-      <div id="formNuevaCategoria" class="card p-4 mb-3" style="display:none;">
+      <div id="formNuevaCategoria" class="card admin-card p-4 mb-3" style="display:none; background: linear-gradient(90deg, #e7ffe7 0%, #f4fff4 100%); border: 2px solid #34c759;">
         <h5 class="mb-3">Crear nueva categoría</h5>
         <form method="POST" action="nueva_categoria.php">
           <div class="mb-3">
@@ -139,7 +141,7 @@ require_once '../conexiondb.php';
       </div>
 
       <!-- Formulario para eliminar categoría (oculto por defecto) -->
-      <div id="formEliminarCategoria" class="card p-4 mb-3" style="display:none;">
+      <div id="formEliminarCategoria" class="card admin-card p-4 mb-3" style="display:none; background: linear-gradient(90deg, #fff7e7 0%, #ffe7e7 100%); border: 2px solid #34c759;">
         <h5 class="mb-3">Eliminar categoría</h5>
         <form method="POST" action="eliminar_categoria.php">
           <div class="mb-3">
@@ -159,7 +161,7 @@ require_once '../conexiondb.php';
       </div>
 
       <!-- Tabla para modificar productos (oculta por defecto) -->
-      <div id="tablaModificarProducto" class="card p-4 mb-3" style="display:none;">
+      <div id="tablaModificarProducto" class="card admin-card p-4 mb-3" style="display:none; background: linear-gradient(90deg, #e7f7ff 0%, #e7fff4 100%); border: 2px solid #34c759;">
         <h5 class="mb-3">Modificar productos</h5>
         <div class="table-responsive">
           <table class="table table-bordered align-middle">
@@ -221,7 +223,7 @@ require_once '../conexiondb.php';
       </div>
 
       <!-- Tabla para ver pedidos (oculta por defecto) -->
-      <div id="tablaVerPedidos" class="card p-4 mb-3" style="display:none;">
+      <div id="tablaVerPedidos" class="card admin-card p-4 mb-3" style="display:none; background: linear-gradient(90deg, #f4fff4 0%, #e7ffe7 100%); border: 2px solid #34c759;">
         <h5 class="mb-3">Pedidos realizados</h5>
         <div class="table-responsive">
           <table class="table table-bordered align-middle">

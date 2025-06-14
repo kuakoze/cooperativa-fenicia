@@ -11,6 +11,7 @@ session_start();
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
   <!-- Estilos personalizados -->
   <link href="estilos.css" rel="stylesheet" />
+  <link rel="icon" type="image/png" href="fotos/logo.png">
 </head>
 <body class="d-flex flex-column min-vh-100">
   <!-- Header -->
@@ -18,7 +19,7 @@ session_start();
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-dark navbar-custom">
       <div class="container">
-        <a class="navbar-brand" href="#">Cooperativa Fenicia</a>
+        <a class="navbar-brand" href="#">Cooperativa Fenicios</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
           <span class="navbar-toggler-icon"></span>
         </button>
@@ -54,13 +55,23 @@ session_start();
     <section class="contenedor-principal d-flex flex-column flex-lg-row align-items-center justify-content-center">
       <!-- Imagen -->
       <div class="contenedor-imagen d-flex justify-content-center align-items-center mb-4 mb-lg-0">
-        <img src="imagenes/cooperativa-fenicia.jpg" alt="Cooperativa Fenicia" class="img-fluid imagen-cooperativa" />
+        <img src="fotos/fotoinicio.jpeg" alt="Cooperativa Fenicia" class="img-fluid imagen-cooperativa" />
       </div>
       <!-- Descripcion -->
       <div class="contenedor-descripcion px-3">
-        <h2 class="mb-3">Nuestra Idiosincrasia</h2>
-        <p>
-          En la Cooperativa Fenicia nos une la pasión por la agricultura sostenible, la solidaridad entre nuestros socios y el compromiso con el desarrollo rural. Apostamos por la innovación, el trabajo en equipo y el respeto al medio ambiente para construir un futuro mejor para todos.
+        <h2 class="mb-3 centrar-titulo-index">Bienvenidos a la Cooperativa Agrícola Fenicios</h2>
+        <p>Bienvenidos a la Cooperativa Agrícola de Adra
+          En el corazón de la vega de Adra, donde el mar y la tierra se dan la mano, 
+          nace nuestra cooperativa: un proyecto con alma local, 
+          pensado por y para los agricultores de nuestra comarca.
+          Creemos en una agricultura responsable, sostenible y cercana.
+           Por eso ofrecemos productos fitosanitarios de calidad, 
+           asesoramiento técnico y un trato personal que solo una cooperativa puede brindar.
+            Conocemos el campo porque también lo trabajamos. 
+            Sabemos lo que necesitas porque compartimos la misma tierra. 
+            Desde ahora, puedes hacer tus pedidos a través de esta web y venir a recogerlos cómodamente en nuestra sede.
+             Rápido, fácil y sin perder el trato directo que tanto valoramos.
+             Gracias por confiar en tu gente. Gracias por confiar en tu cooperativa.        
         </p>
       </div>
     </section>

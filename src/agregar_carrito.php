@@ -1,9 +1,5 @@
 <?php
 session_start();
-if (!isset($_SESSION['usuario'])) {
-    header('Location: login.php');
-    exit();
-}
 
 $id = intval($_POST['producto_id']);
 $cantidad = max(1, intval($_POST['unidades']));

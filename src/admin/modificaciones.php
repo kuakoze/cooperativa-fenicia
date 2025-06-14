@@ -104,7 +104,7 @@ require_once '../conexiondb.php';
             </div>
             <small class="form-text text-muted">Selecciona una o varias categorías.</small>
           </div>
-          <button type="submit" class="btn btn-primary">Subir producto</button>
+          <button type="submit" class="btn btn-success">Subir producto</button>
         </form>
       </div>
 

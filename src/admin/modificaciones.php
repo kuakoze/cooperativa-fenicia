@@ -20,7 +20,7 @@ require_once '../conexiondb.php';
   <header>
     <nav class="navbar navbar-expand-lg navbar-dark navbar-custom">
       <div class="container">
-        <a class="navbar-brand" >Cooperativa Fenicia</a>
+        <a class="navbar-brand" >Cooperativa Fenicios</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
           <span class="navbar-toggler-icon"></span>
         </button>

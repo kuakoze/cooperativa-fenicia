@@ -6,7 +6,7 @@ require_once 'conexiondb.php';
 $categorias = $conexion->query("SELECT id, nombre FROM categorias ORDER BY nombre ASC");
 
 // --- Paginación ---
-$productosPorPagina = 6;
+$productosPorPagina = 8;
 $paginaActual = isset($_GET['pagina']) ? max(1, intval($_GET['pagina'])) : 1;
 $offset = ($paginaActual - 1) * $productosPorPagina;
 
@@ -77,7 +77,7 @@ $res = $stmt->get_result();
   <style>
     .product-img {
       width: 100%;
-      height: 180px;
+      height: 260px; /* Aumentado el tamaño de la imagen */
       object-fit: cover;
       object-position: center;
       border-radius: 0.375rem 0.375rem 0 0;
@@ -189,7 +189,7 @@ $res = $stmt->get_result();
               </p>
               <p class="card-text fw-bold mb-2">Precio: <?php echo number_format($prod['precio'], 2); ?> €</p>
               <div class="mt-auto d-flex flex-column gap-2">
-                <?php if (isset($_SESSION['usuario']) && isset($_SESSION['email'])): ?>
+                <?php if (isset($_SESSION['usuario'])): ?>
                   <form method="POST" action="agregar_carrito.php" class="d-flex align-items-center gap-2">
                     <input type="hidden" name="producto_id" value="<?php echo $prod['id']; ?>">
                     <input type="hidden" name="return_url" value="<?php echo htmlspecialchars($_SERVER['REQUEST_URI']); ?>">
@@ -201,10 +201,9 @@ $res = $stmt->get_result();
                 <?php else: ?>
                   <div class="d-flex align-items-center gap-2">
                     <input type="number" class="form-control input-cantidad" min="1" value="1" disabled>
-                    <button type="button" class="btn btn-success" onclick="mostrarModalRegistro()">Añadir al carro</button>
+                    <button type="button" class="btn btn-success" onclick="mostrarModalNoRegistro()">Añadir al carro</button>
                   </div>
                 <?php endif; ?>
-                <a href="#" class="btn btn-primary">Ver más</a>
               </div>
             </div>
           </div>
@@ -321,16 +320,16 @@ $res = $stmt->get_result();
   </div>
 </div>
 
-<!-- MODAL SOLO MENSAJE REGISTRO -->
-<div class="modal fade" id="modalAvisoRegistro" tabindex="-1" aria-labelledby="modalAvisoRegistroLabel" aria-hidden="true">
+<!-- MODAL: Debes estar registrado para añadir al carrito -->
+<div class="modal fade" id="modalNoRegistro" tabindex="-1" aria-labelledby="modalNoRegistroLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="modalAvisoRegistroLabel">Aviso</h5>
+        <h5 class="modal-title" id="modalNoRegistroLabel">Aviso</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
       </div>
       <div class="modal-body text-center">
-        Para añadir al carrito necesitas registrarte.
+        Debes estar registrado para añadir el producto al carrito.
       </div>
       <div class="modal-footer justify-content-center">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
@@ -338,12 +337,12 @@ $res = $stmt->get_result();
     </div>
   </div>
 </div>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-  <script>
-function mostrarModalRegistro() {
-  var modal = new bootstrap.Modal(document.getElementById('modalAvisoRegistro'));
+<script>
+function mostrarModalNoRegistro() {
+  var modal = new bootstrap.Modal(document.getElementById('modalNoRegistro'));
   modal.show();
 }
 </script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

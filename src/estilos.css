@@ -144,3 +144,14 @@ body {
   color: #fff;
 }
 
+/* Cards de administración con temática verde */
+.card.admin-card {
+  background: linear-gradient(90deg, #e7ffe7 0%, #f4fff4 100%);
+  border: 2px solid #34c759;
+  box-shadow: 0 2px 12px rgba(32, 122, 59, 0.10);
+}
+.card.admin-card .card-title {
+  color: #207a3b;
+  font-weight: bold;
+}
+

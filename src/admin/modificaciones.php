@@ -66,7 +66,7 @@ require_once '../conexiondb.php';
       </form>
 
       <!-- Formulario para subir producto (oculto por defecto) -->
-      <div id="formSubirProducto" class="card p-4 mb-3" style="display:none;">
+      <div id="formSubirProducto" class="card admin-card p-4 mb-3" style="display:none; background: linear-gradient(90deg, #e7f7ff 0%, #e7fff4 100%); border: 2px solid #34c759;">
         <h5 class="mb-3">Subir nuevo producto</h5>
         <form method="POST" action="subir_producto.php" enctype="multipart/form-data">
           <div class="mb-3">
@@ -109,7 +109,7 @@ require_once '../conexiondb.php';
       </div>
 
       <!-- Formulario para eliminar producto (oculto por defecto) -->
-      <div id="formEliminarProducto" class="card p-4 mb-3" style="display:none;">
+      <div id="formEliminarProducto" class="card admin-card p-4 mb-3" style="display:none; background: linear-gradient(90deg, #fff7e7 0%, #ffe7e7 100%); border: 2px solid #34c759;">
         <h5 class="mb-3">Eliminar producto</h5>
         <form method="POST" action="eliminar_producto.php">
           <div class="mb-3">
@@ -129,7 +129,7 @@ require_once '../conexiondb.php';
       </div>
 
       <!-- Formulario para crear nueva categoría (oculto por defecto) -->
-      <div id="formNuevaCategoria" class="card p-4 mb-3" style="display:none;">
+      <div id="formNuevaCategoria" class="card admin-card p-4 mb-3" style="display:none; background: linear-gradient(90deg, #e7ffe7 0%, #f4fff4 100%); border: 2px solid #34c759;">
         <h5 class="mb-3">Crear nueva categoría</h5>
         <form method="POST" action="nueva_categoria.php">
           <div class="mb-3">
@@ -141,7 +141,7 @@ require_once '../conexiondb.php';
       </div>
 
       <!-- Formulario para eliminar categoría (oculto por defecto) -->
-      <div id="formEliminarCategoria" class="card p-4 mb-3" style="display:none;">
+      <div id="formEliminarCategoria" class="card admin-card p-4 mb-3" style="display:none; background: linear-gradient(90deg, #fff7e7 0%, #ffe7e7 100%); border: 2px solid #34c759;">
         <h5 class="mb-3">Eliminar categoría</h5>
         <form method="POST" action="eliminar_categoria.php">
           <div class="mb-3">
@@ -161,7 +161,7 @@ require_once '../conexiondb.php';
       </div>
 
       <!-- Tabla para modificar productos (oculta por defecto) -->
-      <div id="tablaModificarProducto" class="card p-4 mb-3" style="display:none;">
+      <div id="tablaModificarProducto" class="card admin-card p-4 mb-3" style="display:none; background: linear-gradient(90deg, #e7f7ff 0%, #e7fff4 100%); border: 2px solid #34c759;">
         <h5 class="mb-3">Modificar productos</h5>
         <div class="table-responsive">
           <table class="table table-bordered align-middle">
@@ -223,7 +223,7 @@ require_once '../conexiondb.php';
       </div>
 
       <!-- Tabla para ver pedidos (oculta por defecto) -->
-      <div id="tablaVerPedidos" class="card p-4 mb-3" style="display:none;">
+      <div id="tablaVerPedidos" class="card admin-card p-4 mb-3" style="display:none; background: linear-gradient(90deg, #f4fff4 0%, #e7ffe7 100%); border: 2px solid #34c759;">
         <h5 class="mb-3">Pedidos realizados</h5>
         <div class="table-responsive">
           <table class="table table-bordered align-middle">

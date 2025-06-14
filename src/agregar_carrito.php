@@ -1,5 +1,10 @@
 <?php
 session_start();
+// Solo usuarios registrados pueden agregar productos al carrito
+if (!isset($_SESSION['usuario']) || !isset($_SESSION['email'])) {
+    header('Location: login.php');
+    exit();
+}
 
 $id = intval($_POST['producto_id']);
 $cantidad = max(1, intval($_POST['unidades']));

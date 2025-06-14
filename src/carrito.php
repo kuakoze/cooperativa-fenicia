@@ -3,6 +3,12 @@
 session_start();
 require_once 'conexiondb.php';
 
+// Solo usuarios registrados pueden usar el carrito
+if (!isset($_SESSION['usuario']) || !isset($_SESSION['email'])) {
+    header('Location: login.php');
+    exit();
+}
+
 $carrito = $_SESSION['carrito'] ?? [];
 
 $productos = [];

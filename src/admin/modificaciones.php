@@ -62,6 +62,7 @@ require_once '../conexiondb.php';
           <option value="4">Crear una nueva categoría</option>
           <option value="5">Eliminar una categoría</option>
           <option value="6">Ver pedidos</option>
+          <option value="7">Ver productos</option>
         </select>
       </form>
 
@@ -280,6 +281,26 @@ require_once '../conexiondb.php';
           </table>
         </div>
       </div>
+
+      <!-- Cards de productos (oculto por defecto) -->
+      <div id="verProductos" style="display:none;">
+        <div class="row">
+        <?php
+        $res = $conexion->query("SELECT nombre, descripcion, imagen FROM productos ORDER BY nombre ASC");
+        while ($row = $res->fetch_assoc()):
+        ?>
+          <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-4">
+            <div class="card" style="width: 18rem;">
+              <img src="../<?php echo htmlspecialchars($row['imagen']); ?>" class="card-img-top" alt="<?php echo htmlspecialchars($row['nombre']); ?>">
+              <div class="card-body">
+                <h5 class="card-title"><?php echo htmlspecialchars($row['nombre']); ?></h5>
+                <p class="card-text"><?php echo htmlspecialchars($row['descripcion']); ?></p>
+              </div>
+            </div>
+          </div>
+        <?php endwhile; ?>
+        </div>
+      </div>
     </div>
   </main>
 
@@ -298,6 +319,7 @@ require_once '../conexiondb.php';
       const tablaModProd = document.getElementById('tablaModificarProducto');
       const formDelProd = document.getElementById('formEliminarProducto');
       const tablaVerPedidos = document.getElementById('tablaVerPedidos');
+      const verProductos = document.getElementById('verProductos');
       if (this.value === '4') {
         formCat.style.display = 'block';
         formDelCat.style.display = 'none';
@@ -305,6 +327,7 @@ require_once '../conexiondb.php';
         tablaModProd.style.display = 'none';
         formDelProd.style.display = 'none';
         tablaVerPedidos.style.display = 'none';
+        verProductos.style.display = 'none';
       } else if (this.value === '5') {
         formCat.style.display = 'none';
         formDelCat.style.display = 'block';
@@ -312,6 +335,7 @@ require_once '../conexiondb.php';
         tablaModProd.style.display = 'none';
         formDelProd.style.display = 'none';
         tablaVerPedidos.style.display = 'none';
+        verProductos.style.display = 'none';
       } else if (this.value === '1') {
         formCat.style.display = 'none';
         formDelCat.style.display = 'none';
@@ -319,6 +343,7 @@ require_once '../conexiondb.php';
         tablaModProd.style.display = 'none';
         formDelProd.style.display = 'none';
         tablaVerPedidos.style.display = 'none';
+        verProductos.style.display = 'none';
       } else if (this.value === '2') {
         formCat.style.display = 'none';
         formDelCat.style.display = 'none';
@@ -326,6 +351,7 @@ require_once '../conexiondb.php';
         tablaModProd.style.display = 'block';
         formDelProd.style.display = 'none';
         tablaVerPedidos.style.display = 'none';
+        verProductos.style.display = 'none';
       } else if (this.value === '3') {
         formCat.style.display = 'none';
         formDelCat.style.display = 'none';
@@ -333,6 +359,7 @@ require_once '../conexiondb.php';
         tablaModProd.style.display = 'none';
         formDelProd.style.display = 'block';
         tablaVerPedidos.style.display = 'none';
+        verProductos.style.display = 'none';
       } else if (this.value === '6') {
         formCat.style.display = 'none';
         formDelCat.style.display = 'none';
@@ -340,6 +367,15 @@ require_once '../conexiondb.php';
         tablaModProd.style.display = 'none';
         formDelProd.style.display = 'none';
         tablaVerPedidos.style.display = 'block';
+        verProductos.style.display = 'none';
+      } else if (this.value === '7') {
+        formCat.style.display = 'none';
+        formDelCat.style.display = 'none';
+        formSubirProd.style.display = 'none';
+        tablaModProd.style.display = 'none';
+        formDelProd.style.display = 'none';
+        tablaVerPedidos.style.display = 'none';
+        verProductos.style.display = 'block';
       } else {
         formCat.style.display = 'none';
         formDelCat.style.display = 'none';
@@ -347,6 +383,7 @@ require_once '../conexiondb.php';
         tablaModProd.style.display = 'none';
         formDelProd.style.display = 'none';
         tablaVerPedidos.style.display = 'none';
+        verProductos.style.display = 'none';
       }
     });
   </script>

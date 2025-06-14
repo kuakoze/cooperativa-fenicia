@@ -3,7 +3,8 @@
 session_start();
 require_once 'conexiondb.php';
 
-if (!isset($_SESSION['usuario'])) {
+// Solo usuarios registrados pueden procesar el pedido
+if (!isset($_SESSION['usuario']) || !isset($_SESSION['email'])) {
     header('Location: login.php');
     exit();
 }

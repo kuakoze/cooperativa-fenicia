@@ -7,6 +7,7 @@ if (!isset($_SESSION['email']) || $_SESSION['email'] !== 'admin@ejemplo.com') {
 }
 require_once '../conexiondb.php';
 
+//comprueba si se ha enviado el formulario y si todos los campos necesarios están presentes
 if (
     $_SERVER['REQUEST_METHOD'] === 'POST' &&
     !empty($_POST['id']) &&
@@ -16,6 +17,7 @@ if (
     !empty($_POST['stock']) &&
     isset($_POST['categorias']) && is_array($_POST['categorias']) && count($_POST['categorias']) > 0
 ) {
+    // se recogen los datos del formulario y se guardarán en variables
     $id = intval($_POST['id']);
     $nombre = $_POST['nombre'];
     $descripcion = $_POST['descripcion'];
@@ -23,6 +25,8 @@ if (
     $stock = $_POST['stock'];
 
     // Procesar imagen si se sube una nueva
+    // Si no se sube una imagen, se mantendrá la imagen actual del producto
+    // Si se sube una imagen, se guardará en el servidor y se actualizará la ruta en la base de datos
     $img_db_path = null;
     if (isset($_FILES['imagen']) && $_FILES['imagen']['error'] === UPLOAD_ERR_OK) {
         $img_dir = '../uploads/';
@@ -38,7 +42,7 @@ if (
         }
     }
 
-    // Actualizar producto
+    // para actualizar el producto, se prepara la consulta SQL
     if ($img_db_path) {
         $stmt = $conexion->prepare("UPDATE productos SET nombre=?, descripcion=?, precio=?, stock=?, imagen=? WHERE id=?");
         $stmt->bind_param("ssdisi", $nombre, $descripcion, $precio, $stock, $img_db_path, $id);

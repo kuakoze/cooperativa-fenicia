@@ -291,7 +291,7 @@ require_once '../conexiondb.php';
   </footer>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
   <script>
-    // Mostrar/ocultar formularios según la opción seleccionada
+    // con javascript se controla que se vean o no los formularios y tablas segun la opción seleccionada
     document.getElementById('modSelect').addEventListener('change', function() {
       const formCat = document.getElementById('formNuevaCategoria');
       const formDelCat = document.getElementById('formEliminarCategoria');

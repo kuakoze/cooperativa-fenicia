@@ -37,17 +37,39 @@ Este repositorio implementa una plataforma web para la gestión y ventas de prod
 
 ### 3. Catálogo y Carrito de Compras (`src/carrito.php`)
 - Visualización de productos, filtrado por nombre/categoría y paginación.
-- Añadir productos al carrito, visualización y modificación del mismo.
-- Solo usuarios autenticados pueden procesar pedidos.
+- Añadir productos al carrito, visualización y modificación del mismo.  
+![](md/phpcarrito.png)   
+![](md/phpcarrito2.png) 
+
+
+
 
 ### 4. Procesamiento de Pedido (`src/procesar_pedido.php`)
 - Verifica autenticación y existencia de productos en carrito.
 - Extrae el usuario de la sesión y guarda el pedido en la base de datos.
-- Muestra confirmación de pedido exitoso.
+- Muestra confirmación de pedido exitoso.  
+![](md/phpprocesarpedido.png)  
+![](md/phpprocesarpedido2.png)  
+![](md/phpprocesarpedido3.png)  
+![](md/phpprocesarpedido4.png)  
+
 
 ### 5. Panel de Administración (`src/admin/`)
 - Solo accesible para el usuario `admin@ejemplo.com`.
-- **modificaciones.php**: Añadir, editar, eliminar productos y crear categorías.
+- **modificaciones.php**:
+- añadir producto 
+![](md/phpsubirprod.png)  
+
+- Modificar producto 
+![](md/phpmodi1.png)
+![](md/phpmodi2.png)
+
+- eliminar productos 
+![](md/phpeliminarproducto.png)  
+
+- eliminar categoria  
+![](md/modificacioneseliminar.png)   
+
 - **buzon.php**: Visualiza mensajes enviados mediante el formulario de contacto.
 - **pedidos.php**: Consulta lista de pedidos realizados por usuarios, con detalles.
 
@@ -67,8 +89,8 @@ Este repositorio implementa una plataforma web para la gestión y ventas de prod
 - Personalización de la interfaz en `src/estilos.css`:
   - Diseño responsivo para dispositivos móviles.
   - Paleta de colores y estilos para la marca de la cooperativa.
-  - Accesibilidad y contraste mejorados en enlaces y botones.
-- Uso de Bootstrap para componentes y grillas responsivas.
+  
+- Uso de Bootstrap para componentes responsivas.
 
 ---
 
@@ -98,19 +120,12 @@ Este repositorio implementa una plataforma web para la gestión y ventas de prod
 
 ---
 
-## Notas de Desarrollo
-
-- El código está comentado en los principales scripts PHP para facilitar el mantenimiento.
-- Las rutas relativas y el uso de sesiones facilitan la portabilidad del sistema.
-- El sistema está pensado para ser ampliado en funcionalidades administrativas o de usuario final.
-
----
-
 ## Recursos adicionales
 
 - Manual de usuario funcional: `manual del usuario.md`
+- Manual tecnico funcional: `manual tecnico.md`
 - Carpeta `md/` con imágenes y ejemplos de pantallas.
 
 ---
 
-**Autor:** kuakoze 
+**Autor:** Juan Jose Barroso Hidalgo

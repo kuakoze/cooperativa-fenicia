@@ -9,7 +9,7 @@ require_once '../conexiondb.php';
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST['producto_id'])) {
     $producto_id = intval($_POST['producto_id']);
 
-    // Eliminar imagen del servidor si existe
+    // Validar que el producto existe y si existe, eliminar la imagen asociada
     $res = $conexion->query("SELECT imagen FROM productos WHERE id = $producto_id");
     if ($row = $res->fetch_assoc()) {
         $img_path = '../' . $row['imagen'];
@@ -18,7 +18,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST['producto_id'])) {
         }
     }
 
-    // Eliminar producto (las relaciones en producto_categoria y detalle_pedido se eliminan por ON DELETE CASCADE)
+    // se elimina el producto (las relaciones en producto_categoria y detalle_pedido se eliminan por ON DELETE CASCADE)
     $stmt = $conexion->prepare("DELETE FROM productos WHERE id = ?");
     $stmt->bind_param("i", $producto_id);
     if ($stmt->execute()) {

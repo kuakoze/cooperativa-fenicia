@@ -127,7 +127,7 @@ $pedidos = $conexion->query($sql);
   </main>
   <footer class="footer-custom text-white text-center py-3 mt-4">
     <div class="container">
-      <small>&copy; 2025 Cooperativa Fenicia. Todos los derechos reservados.</small>
+      <small>&copy; 2025 Cooperativa Fenicios. Todos los derechos reservados.</small>
     </div>
   </footer>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>

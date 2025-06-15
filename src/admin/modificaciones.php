@@ -16,7 +16,7 @@ require_once '../conexiondb.php';
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
 </head>
 <body class="d-flex flex-column min-vh-100">
-  <!-- Header -->
+  
   <header>
     <nav class="navbar navbar-expand-lg navbar-dark navbar-custom">
       <div class="container">
@@ -45,13 +45,14 @@ require_once '../conexiondb.php';
     </nav>
   </header>
 
-  <!-- Main -->
+  
   <main class="flex-grow-1 py-4">
     <div class="container">
       <h2 class="mb-4">Panel de Modificaciones</h2>
       <?php if (isset($_GET['msg'])): ?>
         <div class="alert alert-info"><?php echo htmlspecialchars($_GET['msg']); ?></div>
       <?php endif; ?>
+      <!-- Formulario select -->
       <form>
         <label for="modSelect" class="form-label">Seleccione una opción para modificar:</label>
         <select class="form-select form-select-lg mb-3" id="modSelect" aria-label="Large select example">
@@ -65,7 +66,7 @@ require_once '../conexiondb.php';
         </select>
       </form>
 
-      <!-- Formulario para subir producto (oculto por defecto) -->
+      <!-- Formulario para subir producto (oculto ) -->
       <div id="formSubirProducto" class="card admin-card p-4 mb-3" style="display:none; background: linear-gradient(90deg, #e7f7ff 0%, #e7fff4 100%); border: 2px solid #34c759;">
         <h5 class="mb-3">Subir nuevo producto</h5>
         <form method="POST" action="subir_producto.php" enctype="multipart/form-data">
@@ -108,7 +109,7 @@ require_once '../conexiondb.php';
         </form>
       </div>
 
-      <!-- Formulario para eliminar producto (oculto por defecto) -->
+      <!-- Formulario para eliminar producto (oculto) -->
       <div id="formEliminarProducto" class="card admin-card p-4 mb-3" style="display:none; background: linear-gradient(90deg, #fff7e7 0%, #ffe7e7 100%); border: 2px solid #34c759;">
         <h5 class="mb-3">Eliminar producto</h5>
         <form method="POST" action="eliminar_producto.php">
@@ -128,7 +129,7 @@ require_once '../conexiondb.php';
         </form>
       </div>
 
-      <!-- Formulario para crear nueva categoría (oculto por defecto) -->
+      <!-- Formulario para crear nueva categoría (oculto) -->
       <div id="formNuevaCategoria" class="card admin-card p-4 mb-3" style="display:none; background: linear-gradient(90deg, #e7ffe7 0%, #f4fff4 100%); border: 2px solid #34c759;">
         <h5 class="mb-3">Crear nueva categoría</h5>
         <form method="POST" action="nueva_categoria.php">
@@ -140,7 +141,7 @@ require_once '../conexiondb.php';
         </form>
       </div>
 
-      <!-- Formulario para eliminar categoría (oculto por defecto) -->
+      <!-- Formulario para eliminar categoría (oculto) -->
       <div id="formEliminarCategoria" class="card admin-card p-4 mb-3" style="display:none; background: linear-gradient(90deg, #fff7e7 0%, #ffe7e7 100%); border: 2px solid #34c759;">
         <h5 class="mb-3">Eliminar categoría</h5>
         <form method="POST" action="eliminar_categoria.php">
@@ -160,7 +161,7 @@ require_once '../conexiondb.php';
         </form>
       </div>
 
-      <!-- Tabla para modificar productos (oculta por defecto) -->
+      <!-- Tabla para modificar productos (oculto) -->
       <div id="tablaModificarProducto" class="card admin-card p-4 mb-3" style="display:none; background: linear-gradient(90deg, #e7f7ff 0%, #e7fff4 100%); border: 2px solid #34c759;">
         <h5 class="mb-3">Modificar productos</h5>
         <div class="table-responsive">
@@ -222,7 +223,7 @@ require_once '../conexiondb.php';
         </div>
       </div>
 
-      <!-- Tabla para ver pedidos (oculta por defecto) -->
+      <!-- Tabla para ver pedidos (oculto) -->
       <div id="tablaVerPedidos" class="card admin-card p-4 mb-3" style="display:none; background: linear-gradient(90deg, #f4fff4 0%, #e7ffe7 100%); border: 2px solid #34c759;">
         <h5 class="mb-3">Pedidos realizados</h5>
         <div class="table-responsive">
@@ -285,7 +286,7 @@ require_once '../conexiondb.php';
 
   <footer class="footer-custom text-white text-center py-3 mt-4">
     <div class="container">
-      <small>&copy; 2025 Cooperativa Fenicia. Todos los derechos reservados.</small>
+      <small>&copy; 2025 Cooperativa Fenicios. Todos los derechos reservados.</small>
     </div>
   </footer>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>

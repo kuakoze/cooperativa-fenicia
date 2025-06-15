@@ -1,5 +1,5 @@
 <?php
-// filepath: c:\Users\6003411\Documents\GitHub\cooperativa-fenicia\src\admin\buzon.php
+
 session_start();
 if (!isset($_SESSION['email']) || $_SESSION['email'] !== 'admin@ejemplo.com') {
     header('Location: ../index.php');
@@ -7,7 +7,7 @@ if (!isset($_SESSION['email']) || $_SESSION['email'] !== 'admin@ejemplo.com') {
 }
 require_once '../conexiondb.php';
 
-// Obtener mensajes de contacto
+//$mensajes se van a guardar los mensajes de contacto a traves de una consulta 
 $mensajes = $conexion->query("SELECT nombre, email, mensaje, fecha FROM mensajes_contacto ORDER BY fecha DESC");
 ?>
 <!DOCTYPE html>
@@ -15,12 +15,12 @@ $mensajes = $conexion->query("SELECT nombre, email, mensaje, fecha FROM mensajes
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Buzón de mensajes - Cooperativa Fenicia</title>
+  <title>Cooperativa Fenicios</title>
   <link href="../estilos.css" rel="stylesheet" />
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+   <link rel="icon" type="image/png" href="../fotos/logo.png">
 </head>
 <body class="d-flex flex-column min-vh-100">
-  <!-- Header -->
   <header>
     <nav class="navbar navbar-expand-lg navbar-dark navbar-custom">
       <div class="container">
@@ -49,7 +49,6 @@ $mensajes = $conexion->query("SELECT nombre, email, mensaje, fecha FROM mensajes
     </nav>
   </header>
 
-  <!-- Main -->
   <main class="flex-grow-1 py-4">
     <div class="container">
       <h2 class="mb-4">Buzón de mensajes de contacto</h2>
@@ -84,7 +83,7 @@ $mensajes = $conexion->query("SELECT nombre, email, mensaje, fecha FROM mensajes
 
   <footer class="footer-custom text-white text-center py-3 mt-4">
     <div class="container">
-      <small>&copy; 2025 Cooperativa Fenicia. Todos los derechos reservados.</small>
+      <small>&copy; 2025 Cooperativa Fenicios. Todos los derechos reservados.</small>
     </div>
   </footer>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>

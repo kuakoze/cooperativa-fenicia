@@ -1,4 +1,4 @@
--- TABLA USUARIOS
+
 CREATE TABLE IF NOT EXISTS usuarios (
     id INT AUTO_INCREMENT PRIMARY KEY,
     nombre VARCHAR(100) NOT NULL,
@@ -10,7 +10,7 @@ CREATE TABLE IF NOT EXISTS usuarios (
     rol VARCHAR(20) NOT NULL DEFAULT 'usuario'
 ) ENGINE=InnoDB;
 
--- TABLA PRODUCTOS
+
 CREATE TABLE IF NOT EXISTS productos (
     id INT AUTO_INCREMENT PRIMARY KEY,
     nombre VARCHAR(100) NOT NULL,
@@ -20,13 +20,13 @@ CREATE TABLE IF NOT EXISTS productos (
     imagen VARCHAR(255)
 ) ENGINE=InnoDB;
 
--- TABLA CATEGORÍAS
+
 CREATE TABLE IF NOT EXISTS categorias (
     id INT AUTO_INCREMENT PRIMARY KEY,
     nombre VARCHAR(100) NOT NULL UNIQUE
 ) ENGINE=InnoDB;
 
--- TABLA PRODUCTO_CATEGORIA 
+
 CREATE TABLE IF NOT EXISTS producto_categoria (
     producto_id INT NOT NULL,
     categoria_id INT NOT NULL,
@@ -35,7 +35,7 @@ CREATE TABLE IF NOT EXISTS producto_categoria (
     FOREIGN KEY (categoria_id) REFERENCES categorias(id) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB;
 
--- TABLA PEDIDOS
+
 CREATE TABLE IF NOT EXISTS pedidos (
     id INT AUTO_INCREMENT PRIMARY KEY,
     usuario_id INT NOT NULL,
@@ -45,7 +45,7 @@ CREATE TABLE IF NOT EXISTS pedidos (
         ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB;
 
--- TABLA DETALLE_PEDIDO
+
 CREATE TABLE IF NOT EXISTS detalle_pedido (
     id INT AUTO_INCREMENT PRIMARY KEY,
     pedido_id INT NOT NULL,
@@ -58,7 +58,7 @@ CREATE TABLE IF NOT EXISTS detalle_pedido (
         ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB;
 
--- TABLA MENSAJES DE CONTACTO
+
 CREATE TABLE IF NOT EXISTS mensajes_contacto (
     id INT AUTO_INCREMENT PRIMARY KEY,
     nombre VARCHAR(100) NOT NULL,
@@ -68,9 +68,9 @@ CREATE TABLE IF NOT EXISTS mensajes_contacto (
 ) ENGINE=InnoDB;
 
 
--- ... (todas las CREATE TABLE ...)
 
--- Insertar categorías de ejemplo
+
+
 INSERT INTO categorias (nombre) VALUES
 ('Control de plagas'),
 ('fertilizantes'),
@@ -82,7 +82,7 @@ INSERT INTO categorias (nombre) VALUES
 ('otros');
 
 
--- Insertar productos de ejemplo
+
 INSERT INTO productos (nombre, descripcion, precio, stock, imagen) VALUES
 ('Amblyseius californicus', 'Control biológico de plagas: ácaros.', 10.00, 100, 'fotos/control de plagas/californicus.jpg'),
 ('Chrysopa', 'Insecto depredador de plagas.', 12.00, 80, 'fotos/control de plagas/chrysopa.jpg'),
@@ -124,7 +124,7 @@ INSERT INTO productos (nombre, descripcion, precio, stock, imagen) VALUES
 ('Rueda', 'Rueda de repuesto.', 8.00, 20, 'fotos/otros/rueda.png'),
 ('Tijeras', 'Tijeras para cosecha.', 9.00, 25, 'fotos/otros/tijeras.png');
 
--- Asociar productos a categorías
+
 INSERT INTO producto_categoria (producto_id, categoria_id) VALUES
 -- Control de plagas (categoria_id = 1)
 (1, 1), -- Amblyseius californicus
@@ -173,7 +173,7 @@ INSERT INTO producto_categoria (producto_id, categoria_id) VALUES
 (30, 8), -- Podar
 (31, 8), -- Rueda
 (32, 8); -- Tijeras
--- Se crea el admin
+
 INSERT INTO usuarios (nombre, apellidos, email, password, direccion, telefono, rol)
 VALUES ('admin', 'Principal', 'admin@ejemplo.com', '123admin456', 'Direccion', '123456789', 'admin');
 

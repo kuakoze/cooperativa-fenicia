@@ -1,14 +1,16 @@
 # Manual del Usuario
 
 ## Usuario sin registro
-
+![navbar](md/navbaruser.png)
 ### Página de inicio
 Lo primero que verás es la página de inicio, donde se encuentra una descripción de la cooperativa.
 ![inicio](md/inicio.png)
 
 ### Productos
-
+![navbar](md/navbaruser.png)
 Puedes realizar diferentes acciones:
+
+![filtros](md/filtros.png.png)
 
 - **Buscar por nombre**: buscará cualquier coincidencia de letras con el producto. No es necesario escribir el nombre completo.
 - **Filtrar por categoría**: elige una o varias categorías para que se muestren los productos que pertenezcan, como mínimo, a una de ellas.
@@ -17,19 +19,20 @@ Puedes realizar diferentes acciones:
 Si no se selecciona ningún filtro de búsqueda, se mostrarán todos los productos. Al hacer clic en **"añadir al carro"**, el producto se añadirá automáticamente al carrito. Si hay varias páginas de productos, se podrán consultar gracias a la **paginación** que aparece abajo.
 
 ### Contacto
-
+![navbar](md/navbaruser.png)
 Esta sección está dividida en dos partes:
 
+![datos](md/datos.png)
 - **Datos de contacto**:
   - Teléfono de la cooperativa
   - Dirección de la cooperativa
   - Correo electrónico de la cooperativa
-
+![con](md//formulariocontacto.png)
 - **Formulario de contacto**:
   - Puedes dejar un mensaje proporcionando tu nombre y correo electrónico.
 
 ### Carrito
-
+![navbar](md/navbaruser.png)
 En esta sección podrás consultar los productos añadidos al carrito de la compra.  
 Para formalizar el pedido, haz clic en **"procesar pedido"**.  
 > **Nota:** No podrás realizar ningún pedido si no te has registrado previamente en la web.

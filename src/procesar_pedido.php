@@ -1,8 +1,14 @@
 <?php
-// filepath: c:\Users\6003411\Documents\GitHub\cooperativa-fenicia\src\procesar_pedido.php
+//con esta funcion el servidor guarda la informacion sobre el visitante, 
+//en caso de que seleccione algun producto, inicie sesion, o filtre, cualquier accion en resumen
 session_start();
+//Se utiliza para conectar a la base de datos
 require_once 'conexiondb.php';
 
+
+
+// Verificar si el usuario está autenticado y si hay productos en el carrito
+//$carrito guarda los productos del carrito, si no hay productos
 if (!isset($_SESSION['usuario'])) {
     header('Location: login.php');
     exit();
@@ -14,7 +20,13 @@ if (!$carrito) {
     exit();
 }
 
-// Obtener datos del usuario
+// en $email se guarda el correo del usuario que ha iniciado sesion
+// y se busca su id en la base de datos
+// $res guarda el resultado de la consulta
+//$user guarda el resultado de la consulta en un array asociativo
+// y $usuario_id guarda el id del usuario
+// si no se encuentra el usuario, se redirige al carrito
+// si se encuentra, se guarda su id en $usuario_id
 $email = $_SESSION['email'];
 $res = $conexion->query("SELECT id FROM usuarios WHERE email = '" . $conexion->real_escape_string($email) . "' LIMIT 1");
 $user = $res->fetch_assoc();
@@ -25,7 +37,14 @@ if (!$usuario_id) {
     exit();
 }
 
-// Calcular total y preparar productos
+// aqui se va a preparar el pedido y calcular el total
+// $productos guarda los productos del carrito con su id, precio, cantidad y subtotal
+// $total guarda el total del pedido
+//$ids guarda los ids de los productos del carrito como una cadena separada por comas
+//$res guarda el resultado de la consulta a la base de datos para obtener los productos del carrito
+// while recorre los resultados de la consulta y calcula el subtotal de cada producto
+//$row guarda cada fila del resultado de la consulta
+//el total se calcula sumando los subtotales de cada producto
 $total = 0;
 $productos = [];
 $ids = implode(',', array_map('intval', array_keys($carrito)));
@@ -42,14 +61,14 @@ while ($row = $res->fetch_assoc()) {
     $total += $subtotal;
 }
 
-// Guardar pedido en la tabla "pedidos"
+// con esta consulta se guarda el pedido en la tabla "pedidos"
 $stmt = $conexion->prepare("INSERT INTO pedidos (usuario_id, fecha, total) VALUES (?, NOW(), ?)");
 $stmt->bind_param('id', $usuario_id, $total);
 $stmt->execute();
 $pedido_id = $stmt->insert_id;
 $stmt->close();
 
-// Guardar detalles en la tabla "detalle_pedido"
+// con esta consulta se guardan los detalles en la tabla "detalle_pedido"
 $stmt = $conexion->prepare("INSERT INTO detalle_pedido (pedido_id, producto_id, cantidad, precio_unitario) VALUES (?, ?, ?, ?)");
 foreach ($productos as $prod) {
     $stmt->bind_param('iiid', $pedido_id, $prod['id'], $prod['cantidad'], $prod['precio']);
@@ -57,7 +76,7 @@ foreach ($productos as $prod) {
 }
 $stmt->close();
 
-// Limpiar carrito
+// con unset se limpia el carrito de la sesión
 unset($_SESSION['carrito']);
 ?>
 <!DOCTYPE html>

@@ -1,10 +1,14 @@
 <?php
-// filepath: c:\Users\6003411\Documents\GitHub\cooperativa-fenicia\src\carrito.php
+
 session_start();
 require_once 'conexiondb.php';
 
+//$carrito es un array que guarda los productos añadidos al carrito
 $carrito = $_SESSION['carrito'] ?? [];
 
+// $producetos es un array que guarda los productos del carrito con su id, precio, cantidad y subtotal
+//$total guarda el total del pedido
+// $ids guarda los ids de los productos del carrito como una cadena separada por comas
 $productos = [];
 $total = 0;
 
@@ -24,7 +28,7 @@ if ($carrito) {
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Carrito de la compra - Cooperativa Fenicia</title>
+  <title>Cooperativa Fenicios</title>
   <link href="estilos.css" rel="stylesheet" />
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
   <link rel="icon" type="image/png" href="fotos/logo.png">
@@ -104,7 +108,7 @@ if ($carrito) {
   </main>
   <footer class="footer-custom text-white text-center py-3 mt-4">
     <div class="container">
-      <small>&copy; 2025 Cooperativa Fenicia. Todos los derechos reservados.</small>
+      <small>&copy; 2025 Cooperativa Fenicios. Todos los derechos reservados.</small>
     </div>
   </footer>
   <div class="modal fade" id="modal_registro_pedido" tabindex="-1" aria-labelledby="modal_registro_pedido_label" aria-hidden="true">
@@ -197,6 +201,7 @@ if ($carrito) {
   </div>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
   <script>
+    //agregar un evento al formulario de procesar pedido para mostrar el modal si el usuario no está registrado
     var usuario_registrado = <?php echo isset($_SESSION['usuario']) ? 'true' : 'false'; ?>;
     document.addEventListener('DOMContentLoaded', function() {
       var form_procesar_pedido = document.getElementById('form_procesar_pedido');

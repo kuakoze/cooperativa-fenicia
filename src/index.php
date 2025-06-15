@@ -6,17 +6,17 @@ session_start();
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Cooperativa Fenicia</title>
-  <!-- Bootstrap CSS -->
+  <title>Cooperativa Fenicios</title>
+  
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
-  <!-- Estilos personalizados -->
+  
   <link href="estilos.css" rel="stylesheet" />
   <link rel="icon" type="image/png" href="fotos/logo.png">
 </head>
 <body class="d-flex flex-column min-vh-100">
-  <!-- Header -->
+ 
   <header>
-    <!-- Navbar -->
+ 
     <nav class="navbar navbar-expand-lg navbar-dark navbar-custom">
       <div class="container">
         <a class="navbar-brand" href="#">Cooperativa Fenicios</a>
@@ -50,14 +50,13 @@ session_start();
     </nav>
   </header>
 
-  <!-- Main -->
+
   <main class="flex-grow-1 py-4">
     <section class="contenedor-principal d-flex flex-column flex-lg-row align-items-center justify-content-center">
-      <!-- Imagen -->
+     
       <div class="contenedor-imagen d-flex justify-content-center align-items-center mb-4 mb-lg-0">
         <img src="fotos/fotoinicio.jpeg" alt="Cooperativa Fenicia" class="img-fluid imagen-cooperativa" />
       </div>
-      <!-- Descripcion -->
       <div class="contenedor-descripcion px-3">
         <h2 class="mb-3 centrar-titulo-index">Bienvenidos a la Cooperativa Agrícola Fenicios</h2>
         <p>Bienvenidos a la Cooperativa Agrícola de Adra
@@ -65,19 +64,19 @@ session_start();
           nace nuestra cooperativa: un proyecto con alma local, 
           pensado por y para los agricultores de nuestra comarca.
           Creemos en una agricultura responsable, sostenible y cercana.
-           Por eso ofrecemos productos fitosanitarios de calidad, 
-           asesoramiento técnico y un trato personal que solo una cooperativa puede brindar.
-            Conocemos el campo porque también lo trabajamos. 
-            Sabemos lo que necesitas porque compartimos la misma tierra. 
-            Desde ahora, puedes hacer tus pedidos a través de esta web y venir a recogerlos cómodamente en nuestra sede.
-             Rápido, fácil y sin perder el trato directo que tanto valoramos.
-             Gracias por confiar en tu gente. Gracias por confiar en tu cooperativa.        
+          Por eso ofrecemos productos fitosanitarios de calidad, 
+          asesoramiento técnico y un trato personal que solo una cooperativa puede brindar.
+          Conocemos el campo porque también lo trabajamos. 
+          Sabemos lo que necesitas porque compartimos la misma tierra. 
+          Desde ahora, puedes hacer tus pedidos a través de esta web y venir a recogerlos cómodamente en nuestra sede.
+          Rápido, fácil y sin perder el trato directo que tanto valoramos.
+          Gracias por confiar en tu gente. Gracias por confiar en tu cooperativa.        
         </p>
       </div>
     </section>
   </main>
 
-  <!-- Modals -->
+  
   <!-- MODAL DE REGISTRO -->
   <div class="modal fade" id="modalRegistro" tabindex="-1" aria-labelledby="modalRegistroLabel" aria-hidden="true">
     <div class="modal-dialog">
@@ -87,7 +86,6 @@ session_start();
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
         </div>
         <div class="modal-body">
-          <!-- Formulario de registro -->
           <form method="POST" action="registro.php">
             <div class="mb-3">
               <label for="nombre" class="form-label">Nombre</label>
@@ -145,14 +143,13 @@ session_start();
     </div>
   </div>
 
-  <!-- Footer -->
   <footer class="footer-custom text-white text-center py-3 mt-4">
     <div class="container">
-      <small>&copy; 2025 Cooperativa Fenicia. Todos los derechos reservados.</small>
+      <small>&copy; 2025 Cooperativa Fenicios. Todos los derechos reservados.</small>
     </div>
   </footer>
 
-  <!-- Bootstrap JS -->
+  <!-- enlace de bootstrap -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

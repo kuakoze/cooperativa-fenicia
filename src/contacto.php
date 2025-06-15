@@ -12,7 +12,7 @@ session_start();
   <link rel="icon" type="image/png" href="fotos/logo.png">
 </head>
 <body class="d-flex flex-column min-vh-100">
-  <!-- Header -->
+  
   <header>
     <nav class="navbar navbar-expand-lg navbar-dark navbar-custom">
       <div class="container">
@@ -46,7 +46,7 @@ session_start();
     </nav>
   </header>
 
-  <!-- Main -->
+  
   <main class="flex-grow-1 py-4">
     <div class="container">
       <h2 class="mb-4">Contacto</h2>
@@ -93,7 +93,7 @@ session_start();
 
   <footer class="footer-custom text-white text-center py-3 mt-4">
     <div class="container">
-      <small>&copy; 2025 Cooperativa Fenicia. Todos los derechos reservados.</small>
+      <small>&copy; 2025 Cooperativa Fenicios. Todos los derechos reservados.</small>
     </div>
   </footer>
 
